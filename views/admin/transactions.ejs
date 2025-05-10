@@ -1,0 +1,364 @@
+<%- include("../../views/partials/admin/header") %>
+
+<style>
+  :root {
+    --primary-color: #3b82f6;
+    --secondary-color: #111827;
+    --success-color: #22c55e;
+    --danger-color: #ef4444;
+    --background-color: #f3f4f6;
+    --white: #ffffff;
+    --border-color: #d1d5db;
+    --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --transition: all 0.2s ease;
+  }
+
+  body {
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--background-color);
+    color: var(--secondary-color);
+    margin: 0;
+    font-size: 16px;
+  }
+
+  .container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 24px 16px;
+  }
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+
+  .breadcrumb {
+    font-size: 0.9rem;
+    margin-bottom: 24px;
+  }
+
+  .breadcrumb a {
+    color: var(--primary-color);
+    text-decoration: none;
+  }
+
+  .breadcrumb a:hover {
+    text-decoration: underline;
+  }
+
+  .card {
+    background: var(--white);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    margin-bottom: 24px;
+  }
+
+  .card-header {
+    background: var(--primary-color);
+    color: var(--white);
+    padding: 12px 20px;
+    border-radius: 8px 8px 0 0;
+    font-size: 1.1rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .card-body {
+    padding: 20px;
+  }
+
+  .filter-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-label {
+    font-weight: 500;
+    margin-bottom: 6px;
+    font-size: 0.9rem;
+  }
+
+  .form-select,
+  .form-control {
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 0.9rem;
+    transition: var(--transition);
+  }
+
+  .form-select:focus,
+  .form-control:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+  }
+
+  .btn {
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: var(--transition);
+  }
+
+  .btn-primary {
+    background: var(--primary-color);
+    color: var(--white);
+    border: none;
+  }
+
+  .btn-primary:hover {
+    background: #1d4ed8;
+  }
+
+  .btn-secondary {
+    background: #6b7280;
+    color: var(--white);
+    border: none;
+  }
+
+  .btn-secondary:hover {
+    background: #4b5563;
+  }
+
+  .transaction-grid {
+    display: grid;
+    grid-template-columns: repeat cartel: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+  }
+
+  .transaction-card {
+    background: var(--white);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 16px;
+    transition: var(--transition);
+  }
+
+  .transaction-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .transaction-card h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 12px;
+  }
+
+  .transaction-card p {
+    font-size: 0.9rem;
+    margin: 6px 0;
+  }
+
+  .amount.credit { color: var(--success-color); }
+  .amount.debit { color: var(--danger-color); }
+  .badge { padding: 4px 8px; border-radius: 12px; font-size: 0.8rem; color: var(--white); }
+  .bg-success { background: var(--success-color); }
+  .bg-danger { background: var(--danger-color); }
+  .bg-info { background: var(--primary-color); }
+  .bg-secondary { background: #9ca3af; }
+
+  .orders { display: flex; flex-wrap: wrap; gap: 6px; }
+  .actions { margin-top: 12px; text-align: right; }
+  .btn-sm { padding: 6px 12px; font-size: 0.8rem; }
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 24px;
+  }
+
+  .page-link {
+    padding: 8px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--primary-color);
+    text-decoration: none;
+  }
+
+  .page-link:hover {
+    background: var(--border-color);
+  }
+
+  .page-item.active .page-link {
+    background: var(--primary-color);
+    color: var(--white);
+    border-color: var(--primary-color);
+  }
+
+  .page-item.disabled .page-link {
+    color: #9ca3af;
+    pointer-events: none;
+  }
+
+  @media (max-width: 600px) {
+    .transaction-grid { grid-template-columns: 1fr; }
+    h1 { font-size: 1.5rem; }
+    .card-header { font-size: 1rem; }
+  }
+</style>
+
+<div class="container">
+  <h1>Transactions</h1>
+  <nav class="breadcrumb">
+    <a href="/admin/transactions">Ledger Book</a> / Transactions
+  </nav>
+
+  <div class="card">
+    <div class="card-header">
+      <i class="fas fa-filter"></i> Filter Transactions
+    </div>
+    <div class="card-body">
+      <form id="filterForm" method="GET" action="/admin/transactions" class="filter-form">
+        <div class="form-group">
+          <label for="transactionType" class="form-label">Type</label>
+          <select class="form-select" id="transactionType" name="transactionType">
+            <option value="">All</option>
+            <option value="credit">Credit</option>
+            <option value="debit">Debit</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="paymentMethod" class="form-label">Payment Method</label>
+          <select class="form-select" id="paymentMethod" name="paymentMethod">
+            <option value="">All</option>
+            <option value="wallet">Wallet</option>
+            <option value="online">Online</option>
+            <option value="refund">Refund</option>
+            <!-- <option value="admin">Admin</option> -->
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="purpose" class="form-label">Purpose</label>
+          <select class="form-select" id="purpose" name="purpose">
+            <option value="">All</option>
+            <option value="purchase">Purchase</option>
+            <option value="refund">Refund</option>
+            <option value="wallet_add">Wallet Add</option>
+            <option value="wallet_withdraw">Wallet Withdraw</option>
+            <option value="cancellation">Cancellation</option>
+            <option value="return">Return</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="orderId" class="form-label">Order ID</label>
+          <input type="text" class="form-control" id="orderId" name="orderId" placeholder="Enter Order ID">
+        </div>
+        <div class="form-group">
+          <label for="startDate" class="form-label">Start Date</label>
+          <input type="date" class="form-control" id="startDate" name="startDate">
+        </div>
+        <div class="form-group">
+          <label for="endDate" class="form-label">End Date</label>
+          <input type="date" class="form-control" id="endDate" name="endDate">
+        </div>
+        <div class="form-group">
+          <label for="userId" class="form-label">User Email</label>
+          <select class="form-select" id="userId" name="userId">
+            <option value="">All Users</option>
+            <% users.forEach(user => { %>
+              <option value="<%= user.email %>" <%= query.userId === user.email ? 'selected' : '' %>>
+                <%= user.email %>
+              </option>
+            <% }) %>
+          </select>
+        </div>
+        <div class="form-group" style="align-self: end;">
+          <button type="submit" class="btn btn-primary">Filter</button>
+          <button type="button" class="btn btn-secondary" onclick="resetFilters()">Reset</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <i class="fas fa-table"></i> Transaction List
+    </div>
+    <div class="card-body">
+      <div class="transaction-grid">
+        <% if (transactions && transactions.length > 0) { %>
+          <% transactions.forEach(transaction => { %>
+            <div class="transaction-card">
+              <h3><%= transaction.transactionId %></h3>
+              <p><strong>User:</strong> <%= transaction.userId ? `${transaction.userId.name} (${transaction.userId.email})` : 'Unknown' %></p>
+              <p><strong>Amount:</strong> <span class="amount <%= transaction.transactionType === 'credit' ? 'credit' : 'debit' %>">
+                <%= transaction.transactionType === 'credit' ? '+' : '-' %>₹<%= transaction.amount.toFixed(2) %>
+              </span></p>
+              <p><strong>Type:</strong> <span class="badge <%= transaction.transactionType === 'credit' ? 'bg-success' : 'bg-danger' %>">
+                <%= transaction.transactionType %>
+              </span></p>
+              <p><strong>Method:</strong> <%= transaction.paymentMethod %></p>
+              <p><strong>Purpose:</strong> <%= transaction.purpose %></p>
+              <p><strong>Date:</strong> <%= new Date(transaction.createdAt).toLocaleDateString() %></p>
+              <p><strong>Orders:</strong>
+                <span class="orders">
+                  <% if (transaction.orders && transaction.orders.length > 0) { %>
+                    <% transaction.orders.forEach(order => { %>
+                      <% if (order.orderDetails) { %>
+                        <a href="/admin/orders/<%= order.orderDetails._id %>" class="badge bg-info"><%= order.orderId %></a>
+                      <% } else { %>
+                        <span class="badge bg-secondary"><%= order.orderId %></span>
+                      <% } %>
+                    <% }) %>
+                  <% } else { %>
+                    None
+                  <% } %>
+                </span>
+              </p>
+              <div class="actions">
+                <a href="/admin/transactions/<%= transaction.transactionId %>" class="btn btn-sm btn-primary">
+                  <i class="fas fa-eye"></i> View
+                </a>
+              </div>
+            </div>
+          <% }) %>
+        <% } else { %>
+          <div class="transaction-card text-center">
+            <p>No transactions found.</p>
+          </div>
+        <% } %>
+      </div>
+
+      <% if (totalPages > 1) { %>
+        <nav class="pagination">
+          <a class="page-link <%= currentPage === 1 ? 'disabled' : '' %>" href="?page=<%= currentPage - 1 %>">Previous</a>
+          <% for(let i = 1; i <= totalPages; i++) { %>
+            <a class="page-link <%= currentPage === i ? 'active' : '' %>" href="?page=<%= i %>"><%= i %></a>
+          <% } %>
+          <a class="page-link <%= currentPage === totalPages ? 'disabled' : '' %>" href="?page=<%= currentPage + 1 %>">Next</a>
+        </nav>
+      <% } %>
+    </div>
+  </div>
+</div>
+
+<script>
+  function resetFilters() {
+    document.getElementById('filterForm').reset();
+    window.location.href = '/admin/transactions';
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    ['transactionType', 'paymentMethod', 'purpose', 'orderId', 'startDate', 'endDate', 'userId'].forEach(field => {
+      const value = urlParams.get(field);
+      if (value) document.getElementById(field).value = value;
+    });
+  });
+</script>
+
+<%- include("../../views/partials/admin/footer") %>

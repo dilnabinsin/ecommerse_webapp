@@ -1,93 +1,89 @@
+<!-- Start footer Area -->
 
-    <!-- Footer Section Begin -->
-    <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-6 col-sm-6">
-                    <div class="footer__about">
-                        <div class="footer__logo">
-                            <a href="#"><img src="img/footer-logo.png" alt=""></a>
-                        </div>
-                        <p>The customer is at the heart of our unique business model, which includes design.</p>
-                        <a href="#"><img src="img/payment.png" alt=""></a>
-                    </div>
+<footer class="footer-area section_gap" style="background-color: #1a1a1a; color: #ffffff; padding: 60px 0;">
+    <div class="container">
+        <div class="row">
+            <!-- About Us Section -->
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="single-footer-widget">
+                    <a href="/about" style="text-decoration: none; color: #ffffff;"><h6 style="font-size: 18px; font-weight: bold; margin-bottom: 20px;">About Us</h6></a>
+                    <p style="line-height: 1.6; font-size: 14px;">
+                        We are passionate about delivering the best content and services. Explore our journey, mission, and vision to learn more about what drives us.
+                    </p>
                 </div>
-                <div class="col-lg-2 offset-lg-1 col-md-3 col-sm-6">
-                    <div class="footer__widget">
-                        <h6>Shopping</h6>
-                        <ul>
-                            <li><a href="#">Clothing Store</a></li>
-                            <li><a href="#">Trending Shoes</a></li>
-                            <li><a href="#">Accessories</a></li>
-                            <li><a href="#">Sale</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-3 col-sm-6">
-                    <div class="footer__widget">
-                        <h6>Shopping</h6>
-                        <ul>
-                            <li><a href="#">Contact Us</a></li>
-                            <li><a href="#">Payment Methods</a></li>
-                            <li><a href="#">Delivary</a></li>
-                            <li><a href="#">Return & Exchanges</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-3 offset-lg-1 col-md-6 col-sm-6">
-                    <div class="footer__widget">
-                        <h6>NewLetter</h6>
-                        <div class="footer__newslatter">
-                            <p>Be the first to know about new arrivals, look books, sales & promos!</p>
-                            <form action="#">
-                                <input type="text" placeholder="Your email">
-                                <button type="submit"><span class="icon_mail_alt"></span></button>
-                            </form>
-                        </div>
+            </div>
+
+            <!-- Newsletter Section -->
+            <div class="col-lg-4 col-md-6 col-sm-6">
+                <div class="single-footer-widget">
+                    <h6 style="font-size: 18px; font-weight: bold; margin-bottom: 20px;">Newsletter</h6>
+                    <p style="line-height: 1.6; font-size: 14px;">Stay updated with our latest news and offers!</p>
+                    <div id="mc_embed_signup">
+                        <form id="customForm" class="form-inline" style="margin-top: 20px;">
+                            <div class="d-flex flex-row">
+                                <input class="form-control" id="emailInput" name="EMAIL" placeholder="Enter Email"
+                                    onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Email '"
+                                    required type="email" style="border-radius: 5px 0 0 5px; border: none; padding: 10px; width: 70%;">
+                                <button type="submit" class="click-btn btn btn-default"
+                                    style="background: #ff4b2b; border: none; border-radius: 0 5px 5px 0; padding: 10px 15px;">
+                                    <i class="fa fa-long-arrow-right" aria-hidden="true" style="color: #ffffff;"></i>
+                                </button>
+                            </div>
+                            <div class="info" style="margin-top: 10px; font-size: 14px; color: #28a745;"></div>
+                        </form>
+                        <script>
+                            document.getElementById("customForm").addEventListener("submit", function(event) {
+                                event.preventDefault();
+                                let emailInput = document.getElementById("emailInput");
+                                let infoDiv = document.querySelector(".info");
+                                infoDiv.textContent = "Submitting...";
+                                setTimeout(() => {
+                                    infoDiv.textContent = "Subscribed successfully!";
+                                    emailInput.value = "";
+                                }, 2000);
+                            });
+                        </script>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <div class="footer__copyright__text">
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        <p>Copyright ©
-                            <script>
-                                document.write(new Date().getFullYear());
-                            </script>2020
-                            All rights reserved | This template is made with <i class="fa fa-heart-o"
-                            aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-                        </p>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+
+            <!-- Follow Us Section -->
+            <div class="col-lg-2 col-md-6 col-sm-6">
+                <div class="single-footer-widget">
+                    <h6 style="font-size: 18px; font-weight: bold; margin-bottom: 20px;">Follow Us</h6>
+                    <p style="line-height: 1.6; font-size: 14px;">Let’s stay connected</p>
+                    <div class="footer-social d-flex align-items-center" style="margin-top: 20px;" style="margin-top: 20px;">
+                        <a href="https://www.linkedin.com/feed/" style="margin-right: 15px;"><i class="fa-brands fa-linkedin" style="font-size: 20px; color: #ffffff;"></i></a>
+                        <!-- <a href="#" style="margin-right: 15px;"><i class="fa-brands fa-twitter" style="font-size: 20px; color: #ffffff;"></i></a> -->
+                        <a href="https://github.com/" style="margin-right: 15px;"><i class="fa-brands fa-github" style="font-size: 20px; color: #ffffff;"></i></a>
+                        <a href="https://www.instagram.com/" style="margin-right: 15px;"><i class="fa-brands fa-instagram" style="font-size: 20px; color: #ffffff;"></i></a>
                     </div>
+                </div>
+            </div>
+
+            <!-- Quick Links Section -->
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="single-footer-widget">
+                    <h6 style="font-size: 18px; font-weight: bold; margin-bottom: 20px;">Quick Links</h6>
+                    <ul style="list-style: none; padding: 0; font-size: 14px;">
+                        <li><a href="/" style="text-decoration: none; color: #ffffff; line-height: 2;">Home</a></li>
+                        <li><a href="/Shop" style="text-decoration: none; color: #ffffff; line-height: 2;">Shop</a></li>
+                        <li><a href="/about" style="text-decoration: none; color: #ffffff; line-height: 2;">About</a></li>
+                        <li><a href="/contact" style="text-decoration: none; color: #ffffff; line-height: 2;">Contact</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
-    </footer>
-    <!-- Footer Section End -->
 
-    <!-- Search Begin -->
-    <div class="search-model">
-        <div class="h-100 d-flex align-items-center justify-content-center">
-            <div class="search-close-switch">+</div>
-            <form class="search-model-form">
-                <input type="text" id="search-input" placeholder="Search here.....">
-            </form>
+        <!-- Copyright Section -->
+        <div class="row" style="margin-top: 40px; border-top: 1px solid #333; padding-top: 20px;">
+            <div class="col-lg-12">
+                <p class="footer-text" style="text-align: center; font-size: 14px;">
+                    &copy; <script>document.write(new Date().getFullYear());</script> All rights reserved | Designed with <i class="fa fa-heart" style="color: #ff4b2b;"></i>
+                </p>
+            </div>
         </div>
     </div>
-    <!-- Search End -->
+</footer>
 
-    <!-- Js Plugins -->
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery.nice-select.min.js"></script>
-    <script src="js/jquery.nicescroll.min.js"></script>
-    <script src="js/jquery.magnific-popup.min.js"></script>
-    <script src="js/jquery.countdown.min.js"></script>
-    <script src="js/jquery.slicknav.js"></script>
-    <script src="js/mixitup.min.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/main.js"></script>
-</body>
-
-</html>
+<!-- End footer Area -->

@@ -1,0 +1,190 @@
+<%- include("../../views/partials/admin/header") %>
+
+<style>
+  .clear-btn {
+    border-radius: 50%;  /* Makes the button round */
+    padding: 5px 10px;   /* Makes the button small */
+    font-size: 14px;      /* Adjusts the font size */
+    display: inline-flex; /* Ensures the button stays inline with other elements */
+    align-items: center;  /* Vertically center the icon */
+    justify-content: center; /* Horizontally center the icon */
+  }
+</style>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+<section class="content-main">
+  <div class="content-header">
+    <div class="d-flex justify-content-between align-items-center">
+      <h2 class="content-title">Customers Management</h2>
+    </div>
+  </div>
+
+  <div class="card mb-4">
+    <div class="card-header">
+      <h4 class="card-title mb-0">Search Customers</h4>
+    </div>
+    <div class="card-body">
+      <form action="/admin/users/" method="get">
+        <div class="input-group">
+          <div class="input-group input-group-sm border border-1 border-grey rounded-pill" style="width: 500px; margin-left: 230px;">
+            <input type="text" class="form-control border-0 rounded-pill" placeholder="Search customers" name="search">
+            <button class="btn border-0" type="submit"><i class="fas fa-search"></i></button>
+            
+        </div>
+        <a href="/admin/users" class="btn btn-secondary border-0 clear-btn border border-1 border-grey rounded-pill">Clear</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title mb-0">Customer List</h4>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">#</th> 
+              <th scope="col">Name</th>
+              <th scope="col">Email</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% if (data.length === 0) { %>
+              <tr>
+                <td colspan="4" class="text-center">No customers found.</td>
+              </tr>
+            <% } else { %>
+              <% for (let i = 0; i < data.length; i++) { %>
+                <tr>
+                    <td><%= i + 1 + (currentPage - 1) * 9 %></td>
+                  <!-- Check if user signed in via Google -->
+                  <td>
+                    <% if (!data[i].google) { %> 
+                      <%= data[i].name %> <!-- Display name for email/password login -->
+                    <% } else { %> 
+                      <%= data[i].email %> <!-- Display email for Google login -->
+                    <% } %>
+                  </td>
+                  <td><%= data[i].email %></td>
+                  <td>
+                    <% if (data[i].isBlocked === false) { %>
+                      <a href="#" onclick="confirmBlock(event, '<%= data[i]._id %>')" class="badge bg-success">Block</a>
+                    <% } else { %>
+                      <a href="#" onclick="confirmUnblock(event, '<%= data[i]._id %>')" class="badge bg-danger">Unblock</a>
+                    <% } %>
+                  </td>
+                </tr>
+              <% } %>
+            <% } %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <nav aria-label="Page navigation">
+    <ul class="pagination">
+      <% if (currentPage > 1) { %>
+        <li class="page-item">
+          <a class="page-link" href="?page=<%= currentPage - 1 %>" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+      <% } %>
+      <% for (let i = 1; i <= totalPages; i++) { %>
+        <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+          <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+        </li>
+      <% } %>
+      <% if (currentPage < totalPages) { %>
+        <li class="page-item">
+          <a class="page-link" href="?page=<%= currentPage + 1 %>" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      <% } %>
+    </ul>
+  </nav>
+</section>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+ 
+  // Handle search form submit using AJAX
+  $('#search-form').on('submit', function(e) {
+    e.preventDefault();
+    
+    const searchQuery = $('#search-input').val();  // Get the search query
+    $.ajax({
+      url: '/admin/users/',
+      method: 'GET',
+      data: { search: searchQuery },
+      success: function(response) {
+        // Update the table with new data
+        $('#customer-list').html(response);
+      },
+      error: function(err) {
+        console.error('Error:', err);
+      }
+    });
+  });
+
+  // Optional: Handle page change via AJAX
+  function changePage(page) {
+    const searchQuery = $('#search-input').val();  // Get the current search query
+    $.ajax({
+      url: '/admin/users/',
+      method: 'GET',
+      data: { search: searchQuery, page: page },
+      success: function(response) {
+        // Update the table with new data
+        $('#customer-list').html(response);
+      },
+      error: function(err) {
+        console.error('Error:', err);
+      }
+    });
+  }
+
+  function confirmBlock(event, userId) {
+    event.preventDefault();
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You are about to block this user!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#dc3545",
+      cancelButtonColor: "#6c757d",
+      confirmButtonText: "Yes, Block!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.href = "/admin/blockCustomer?id=" + userId;
+      }
+    });
+  }
+
+  function confirmUnblock(event, userId) {
+    event.preventDefault();
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You are about to unblock this user!",
+      icon: "info",
+      showCancelButton: true,
+      confirmButtonColor: "#28a745",
+      cancelButtonColor: "#6c757d",
+      confirmButtonText: "Yes, Unblock!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        window.location.href = "/admin/unblockCustomer?id=" + userId;
+      }
+    });
+  }
+
+</script>
+<%- include("../../views/partials/admin/footer") %>
+
+

@@ -1,0 +1,378 @@
+<%- include("../../views/partials/user/header") %>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+<%- include("../../views/partials/user/loader") %>
+<script src="main.js"></script>
+<style>
+    :root {
+        --primary: #1a2526;
+        --secondary: #3b4f50;
+        --accent: #b7950b;
+        --text-light: #f5f5f5;
+        --text-dark: #1a2526;
+        --bg-light: #ffffff;
+    }
+
+    body {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        font-family: 'Roboto', sans-serif;
+        color: var(--text-dark);
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Profile Page Breadcrumb Styling */
+    .page-header.breadcrumb-wrap {
+        background-color: var(--bg-light);
+        padding: 10px 0; /* Reduced height */
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        margin-bottom: 30px;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    .breadcrumb {
+        font-family: 'Roboto', sans-serif;
+        font-size: 14px;
+        color: var(--text-dark);
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+    .breadcrumb a {
+        color: var(--primary);
+        text-decoration: none;
+        margin: 0 5px;
+        position: relative;
+        transition: color 0.3s ease;
+    }
+
+    .breadcrumb a:hover {
+        color: var(--accent);
+    }
+
+    .breadcrumb span {
+        margin: 0 5px;
+        color: #999;
+    }
+
+    .breadcrumb a::after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 1px;
+        background: var(--accent);
+        left: 0;
+        bottom: -2px;
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+    }
+
+    .breadcrumb a:hover::after {
+        transform: scaleX(1);
+    }
+
+    /* Form Container */
+    .address-form-container {
+        background: var(--bg-light);
+        border-radius: 15px;
+        padding: 40px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        margin: 30px auto;
+        max-width: 900px;
+    }
+
+    .address-form-container h3 {
+        font-family: 'Playfair Display', serif;
+        color: var(--primary);
+        font-size: 28px;
+        margin-bottom: 30px;
+        position: relative;
+    }
+
+    .address-form-container h3::after {
+        content: '';
+        position: absolute;
+        width: 50px;
+        height: 2px;
+        background: var(--accent);
+        bottom: -10px;
+        left: 0;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        font-family: 'Roboto', sans-serif;
+        font-weight: 500;
+        color: var(--text-dark);
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    .form-control {
+        border-radius: 8px;
+        border: 1px solid #ddd;
+        padding: 12px;
+        font-family: 'Roboto', sans-serif;
+        font-size: 14px;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 10px rgba(44, 62, 80, 0.1);
+        outline: none;
+    }
+
+    .form-control.invalid {
+        border-color: #ff4d4d;
+    }
+
+    .text-danger {
+        font-size: 12px;
+        margin-top: 5px;
+    }
+
+    .btn-submit {
+        background: var(--accent);
+        border: none;
+        padding: 12px 30px;
+        border-radius: 8px;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 500;
+        color: var(--text-light);
+        transition: all 0.3s ease;
+    }
+
+    .btn-submit:hover {
+        background: #d4af37;
+        transform: translateY(-2px);
+    }
+
+    @media (max-width: 768px) {
+        .address-form-container {
+            padding: 20px;
+            margin: 20px auto;
+        }
+        .address-form-container h3 {
+            font-size: 24px;
+        }
+        .form-control {
+            padding: 10px;
+        }
+        .btn-submit {
+            padding: 10px 20px;
+        }
+    }
+</style>
+
+<!-- Profile Page Breadcrumb -->
+<div class="page-header breadcrumb-wrap">
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="/">Home</a>
+            <span></span>
+            <a href="/userProfile">Profile</a>
+            <span></span>
+            <a href="/address">Address</a>
+            <span></span>
+            Add Address
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="address-form-container">
+        <h3>Create New  Address</h3>
+        <form id="addressForm" method="POST" action="/addAddressCheckout">
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label for="addressType">Address Type</label>
+                    <input type="text" class="form-control" id="addressType" name="addressType" required>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" id="name" name="name" required>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="country">Country</label>
+                    <select class="form-control" id="country" name="country" required>
+                        <option value="India">India</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label for="city">City</label>
+                    <input type="text" class="form-control" id="city" name="city" required>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="landMark">Landmark</label>
+                    <input type="text" class="form-control" id="landMark" name="landMark" required>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="state">State</label>
+                    <select class="form-control" id="state" name="state" required>
+                        <option value="Kerala">Kerala</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label for="streetAddress">Street Address</label>
+                    <input type="text" class="form-control" id="streetAddress" name="streetAddress" required>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="pincode">Pincode</label>
+                    <input type="number" class="form-control" id="pincode" name="pincode" required>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="phone">Phone</label>
+                    <input type="text" class="form-control" id="phone" name="phone" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="altPhone">Alternate Phone</label>
+                    <input type="text" class="form-control" id="altPhone" name="altPhone" required>
+                </div>
+            </div>
+            <button type="submit" id="submitButton" class="btn-submit">Submit</button>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+   document.getElementById('addressForm').addEventListener('submit', function(event) {
+       if (!validateForm()) {
+           event.preventDefault();
+       }
+   });
+
+   function validateForm() {
+       let isValid = true;
+       const requiredFields = ["addressType", "name", "country", "city", "landMark", "state", "streetAddress", "pincode", "phone", "email", "altPhone"];
+       requiredFields.forEach(function(field) {
+           const input = document.getElementById(field);
+           const inputValue = input.value.trim();
+           const errorElement = document.getElementById(field + '-error');
+
+           if (inputValue === "") {
+               if (!errorElement) {
+                   const errorMessage = "This field is required.";
+                   const errorDiv = document.createElement('div');
+                   errorDiv.className = "text-danger";
+                   errorDiv.textContent = errorMessage;
+                   errorDiv.id = field + '-error';
+                   input.parentNode.appendChild(errorDiv);
+               }
+               isValid = false;
+           } else {
+               if (errorElement) {
+                   errorElement.remove();
+               }
+           }
+       });
+
+       const namePattern = /^[A-Za-z\s]+$/;
+       const pincodePattern = /^\d{6}$/;
+       const phonePattern = /^\d{10}$/;
+       const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+       const name = document.getElementById('name').value;
+       const city = document.getElementById('city').value;
+       const landMark = document.getElementById('landMark').value;
+       const state = document.getElementById('state').value;
+       const pincode = document.getElementById('pincode').value;
+       const phone = document.getElementById('phone').value;
+       const altPhone = document.getElementById('altPhone').value;
+       const email = document.getElementById('email').value;
+
+       if (!namePattern.test(name)) {
+           Swal.fire({
+               title: 'Error',
+               text: 'Name should contain alphabets only.',
+               icon: 'error'
+           });
+           isValid = false;
+       }
+       if (!namePattern.test(city)) {
+           Swal.fire({
+               title: 'Error',
+               text: 'City should contain alphabets only.',
+               icon: 'error'
+           });
+           isValid = false;
+       }
+       if (!namePattern.test(landMark)) {
+           Swal.fire({
+               title: 'Error',
+               text: 'Landmark should contain alphabets only.',
+               icon: 'error'
+           });
+           isValid = false;
+       }
+       if (!namePattern.test(state)) {
+           Swal.fire({
+               title: 'Error',
+               text: 'State should contain alphabets only.',
+               icon: 'error'
+           });
+           isValid = false;
+       }
+       if (!pincodePattern.test(pincode)) {
+           Swal.fire({
+               title: 'Error',
+               text: 'Pincode should be a 6-digit number.',
+               icon: 'error'
+           });
+           isValid = false;
+       }
+       if (!phonePattern.test(phone)) {
+           Swal.fire({
+               title: 'Error',
+               text: 'Phone number should be a 10-digit number.',
+               icon: 'error'
+           });
+           isValid = false;
+       }
+       if (!phonePattern.test(altPhone)) {
+           Swal.fire({
+               title: 'Error',
+               text: 'Alternate phone number should be a 10-digit number.',
+               icon: 'error'
+           });
+           isValid = false;
+       }
+       if (phone === altPhone) {
+           Swal.fire({
+               title: 'Error',
+               text: 'Phone number and alternate phone number should be different.',
+               icon: 'error'
+           });
+           isValid = false;
+       }
+       if (!emailPattern.test(email)) {
+           Swal.fire({
+               title: 'Error',
+               text: 'Please enter a valid email address.',
+               icon: 'error'
+           });
+           isValid = false;
+       }
+       return isValid;
+   }
+</script>
+<%- include("../../views/partials/user/footer") %>

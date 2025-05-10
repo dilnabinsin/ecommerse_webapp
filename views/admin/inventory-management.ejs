@@ -1,0 +1,252 @@
+<%- include("../../views/partials/admin/header") %>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inventory Management</title>
+  <!-- Tailwind CSS CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <!-- SweetAlert2 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+  <style>
+    /* Custom styles */
+    body {
+      font-family: 'Inter', sans-serif;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .dark body {
+      background-color: #1f2937;
+      color: #e5e7eb;
+    }
+    .table-container {
+      max-width: 100%;
+      overflow-x: auto;
+    }
+    .quantity-input {
+      transition: border-color 0.3s;
+    }
+    .quantity-input:focus {
+      border-color: #3b82f6;
+      outline: none;
+    }
+    .update-btn {
+      transition: background-color 0.3s, transform 0.2s;
+    }
+    .update-btn:hover {
+      transform: scale(1.05);
+    }
+    .update-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    /* Responsive table adjustments */
+    @media (max-width: 640px) {
+      table {
+        display: block;
+        overflow-x: auto;
+      }
+      th, td {
+        min-width: 120px;
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-800">
+  <div class="container mx-auto p-6">
+    <!-- Header Section -->
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-2xl font-bold text-gray-800 dark:text-gray-100">Inventory Management</h2>
+      <button id="darkModeToggle" class="px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-md text-gray-800 dark:text-gray-100">
+        Toggle Dark Mode
+      </button>
+    </div>
+
+    <!-- Table Card -->
+    <div class="bg-white dark:bg-gray-900 shadow-lg rounded-lg p-6 table-container">
+      <table class="w-full text-left border-collapse">
+        <thead>
+          <tr class="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-200">
+            <th class="p-4">Product</th>
+            <th class="p-4">Regular Price</th>
+            <th class="p-4">Sale Price</th>
+            <th class="p-4">Offer (%)</th>
+            <th class="p-4">Quantity</th>
+            <th class="p-4">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% products.forEach(product => { %>
+            <tr class="border-b dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800">
+              <td class="p-4"><%= product.productName %></td>
+              <td class="p-4">₹<%= product.regularPrice %></td>
+              <td class="p-4">₹<%= product.salePrice %></td>
+              <td class="p-4"><%= product.productOffer || 0 %>%</td>
+              <td class="p-4">
+                <input 
+                  type="number" 
+                  class="quantity-input w-20 p-2 border rounded-md bg-gray-50 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100" 
+                  value="<%= product.quantity %>" 
+                  min="0" 
+                  max="500"
+                />
+              </td>
+              <td class="p-4">
+                <button 
+                  type="button" 
+                  class="update-btn px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 disabled:bg-blue-400" 
+                  data-id="<%= product._id %>"
+                >
+                  Save
+                </button>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+      <!-- Pagination -->
+<div class="pagination">
+  <% if (totalPages > 1) { %>
+    <ul style="list-style: none; display: flex; gap: 10px;">
+      <% if (currentPage > 1) { %>
+        <li><a href="?page=<%= currentPage - 1 %>">Prev</a></li>
+      <% } %>
+
+      <% for (let i = 1; i <= totalPages; i++) { %>
+        <li>
+          <a href="?page=<%= i %>" style="<%= currentPage == i ? 'font-weight:bold;' : '' %>">
+            <%= i %>
+          </a>
+        </li>
+      <% } %>
+
+      <% if (currentPage < totalPages) { %>
+        <li><a href="?page=<%= currentPage + 1 %>">Next</a></li>
+      <% } %>
+    </ul>
+  <% } %>
+</div>
+
+    </div>
+  </div>
+
+  <!-- SweetAlert2 Script -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    <% if (lowStockProducts.length > 0 && currentPage == 1) { %>
+      const lowStockList = `<ul>
+        <% lowStockProducts.forEach(product => { %>
+          <li><strong><%= product.productName %></strong>: <%= product.quantity %> left</li>
+        <% }); %>
+      </ul>`;
+  
+      Swal.fire({
+        icon: "warning",
+        title: "Low Stock Alert 🚨",
+        html: `The following products have low stock:<br><br> ${lowStockList}`,
+        confirmButtonText: "Got it",
+      });
+    <% } %>
+ 
+    // Update Quantity Logic
+    document.querySelectorAll(".update-btn").forEach((btn) => {
+      btn.addEventListener("click", async () => {
+        btn.disabled = true; // Disable button during request
+        const productId = btn.getAttribute("data-id");
+        const row = btn.closest("tr");
+        const quantityInput = row.querySelector(".quantity-input");
+        const quantity = parseInt(quantityInput.value);
+
+        // Client-side validation
+        if (isNaN(quantity) || quantity < 0) {
+          Swal.fire({
+            icon: "error",
+            title: "Invalid Input",
+            text: "Please enter a valid quantity.",
+            customClass: {
+              popup: 'dark:bg-gray-800 dark:text-gray-100',
+              confirmButton: 'bg-blue-600 hover:bg-blue-700 text-white',
+            },
+          });
+          btn.disabled = false;
+          return;
+        }
+
+        if (quantity > 500) {
+          Swal.fire({
+            icon: "warning",
+            title: "Quantity Exceeded",
+            text: "Quantity cannot exceed 500!",
+            customClass: {
+              popup: 'dark:bg-gray-800 dark:text-gray-100',
+              confirmButton: 'bg-blue-600 hover:bg-blue-700 text-white',
+            },
+          });
+          btn.disabled = false;
+          return;
+        }
+
+        try {
+          const res = await fetch("/admin/inventory/update", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ productId, quantity }),
+          });
+
+          const data = await res.json();
+
+          if (data.success) {
+            Swal.fire({
+              icon: "success",
+              title: "Updated!",
+              text: data.message,
+              timer: 1500,
+              showConfirmButton: false,
+              customClass: {
+                popup: 'dark:bg-gray-800 dark:text-gray-100',
+              },
+            });
+          } else {
+            Swal.fire({
+              icon: "error",
+              title: "Update Failed",
+              text: data.message,
+              customClass: {
+                popup: 'dark:bg-gray-800 dark:text-gray-100',
+                confirmButton: 'bg-blue-600 hover:bg-blue-700 text-white',
+              },
+            });
+          }
+        } catch (err) {
+          Swal.fire({
+            icon: "error",
+            title: "Server Error",
+            text: "An unexpected error occurred",
+            customClass: {
+              popup: 'dark:bg-gray-800 dark:text-gray-100',
+              confirmButton: 'bg-blue-600 hover:bg-blue-700 text-white',
+            },
+          });
+        } finally {
+          btn.disabled = false; // Re-enable button
+        }
+      });
+    });
+
+    // Dark Mode Toggle
+    const darkModeToggle = document.getElementById("darkModeToggle");
+    darkModeToggle.addEventListener("click", () => {
+      document.documentElement.classList.toggle("dark");
+      localStorage.setItem("darkMode", document.documentElement.classList.contains("dark"));
+    });
+
+    // Load dark mode preference
+    if (localStorage.getItem("darkMode") === "true") {
+      document.documentElement.classList.add("dark");
+    }
+  </script>
+</body>
+</html>
+
+<%- include("../../views/partials/admin/footer") %>

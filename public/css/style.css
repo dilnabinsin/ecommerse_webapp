@@ -814,7 +814,7 @@ ol {
 }
 
 .categories__deal__countdown span {
-	color: #e53637;
+	color: #dfd8d8;
 	font-size: 14px;
 	font-weight: 700;
 	text-transform: uppercase;
@@ -3849,3 +3849,119 @@ ol {
 		height: 250px;
 	}
 }
+ /* Hero Section */
+ .hero {
+	position: relative;
+	overflow: hidden;
+	height: 60vh;  /* Reduced the height to 60% of the viewport */
+}
+
+.hero__slider {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+
+.hero__items {
+	
+	position: relative;
+	background-size: cover;
+	background-position: center;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.hero__text {
+	color: #fff;
+	text-align: left;
+	background-color: rgba(0, 0, 0, 0.5);
+	padding: 20px;
+	border-radius: 10px;
+}
+
+.hero__subtitle {
+	font-size: 1.2rem;
+	text-transform: uppercase;
+	margin-bottom: 10px;
+	letter-spacing: 2px;
+	font-weight: 600;
+}
+
+.hero__title {
+	font-size: 2.5rem; /* Reduced the font size */
+	font-weight: 700;
+	margin-bottom: 15px;
+}
+
+.hero__description {
+	font-size: 1rem;
+	line-height: 1.6;
+	margin-bottom: 15px;
+	font-weight: 400;
+}
+
+.primary-btn {
+	background-color: #3498db;
+	padding: 12px 24px;
+	font-size: 1.2rem;
+	color: white;
+	text-transform: uppercase;
+	text-decoration: none;
+	border-radius: 5px;
+	font-weight: 600;
+	display: inline-flex;
+	align-items: center;
+	transition: background-color 0.3s ease;
+}
+
+.primary-btn:hover {
+	background-color: #2980b9;
+}
+
+.arrow_right {
+	margin-left: 10px;
+}
+
+.hero__social {
+	margin-top: 20px;
+}
+
+.social-icon {
+	color: #fff;
+	font-size: 1.5rem;
+	margin-right: 15px;
+	transition: color 0.3s ease;
+}
+
+.social-icon:hover {
+	color: #3498db;
+}
+
+/* Slider Arrow */
+.owl-nav {
+	display: none;
+}
+
+/* Optional: Add some responsive adjustments */
+@media (max-width: 768px) {
+	.hero__text {
+		text-align: center;
+		padding: 15px;
+	}
+
+	.hero__title {
+		font-size: 2rem;
+	}
+
+	.hero__description {
+		font-size: 0.9rem;
+	}
+}
+@font-face {
+	font-family: "Linearicons-Free";
+	src: url("/fonts/Linearicons-Free.woff2") format("woff2"),
+		 url("/fonts/Linearicons-Free.woff") format("woff"),
+		 url("/fonts/Linearicons-Free.ttf") format("truetype");
+  }

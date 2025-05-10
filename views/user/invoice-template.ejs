@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoice #<%= order.orderId %></title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background-color: #f4f4f9;
+        }
+
+        .invoice-container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .invoice-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 20px;
+        }
+
+        .invoice-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .company-details {
+            text-align: right;
+            font-size: 14px;
+            color: #777;
+        }
+
+        .company-details strong {
+            font-size: 16px;
+            color: #333;
+        }
+
+        .invoice-details {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .invoice-details .customer-details,
+        .invoice-details .shipping-details {
+            width: 48%;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            font-size: 14px;
+        }
+
+        th {
+            background-color: #f7f7f7;
+            color: #555;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .product-image {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .total-section {
+            text-align: right;
+            margin-top: 20px;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .total-label {
+            width: 150px;
+            text-align: right;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .total-value {
+            width: 120px;
+            text-align: right;
+            font-weight: 600;
+        }
+
+        .grand-total {
+            font-size: 18px;
+            font-weight: 700;
+            border-top: 2px solid #333;
+            padding-top: 10px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 5px 15px;
+            font-size: 14px;
+            font-weight: bold;
+            color: white;
+            text-transform: uppercase;
+            border-radius: 25px;
+            background-color: #28a745;
+            margin-top: 5px;
+        }
+
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 12px;
+            color: #777;
+        }
+
+        .footer a {
+            color: #28a745;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="invoice-container">
+        <div class="invoice-header">
+            <div>
+                <div class="invoice-title">INVOICE</div>
+                <div>Invoice #<%= order.orderId %></div>
+                <div>Date: <%= new Date(order.invoiceDate || order.createdOn).toLocaleDateString() %></div>
+            </div>
+            <div class="company-details">
+                <strong>TK Saree Studio</strong>
+                <div>Pune, Maharashtra</div>
+                <div>Phone: +00 000 0000 000</div>
+                <div>Email: abc@gmail.com</div>
+            </div>
+        </div>
+
+        <div class="invoice-details">
+            <div class="customer-details">
+                <div class="section-title">Bill To</div>
+                <div><strong><%= order.address.name %></strong></div>
+                <div><%= order.address.email %></div>
+                <div><%= order.address.phone %></div>
+            </div>
+            <div class="shipping-details">
+                <div class="section-title">Ship To</div>
+                <div><%= order.address.streetAddress %></div>
+                <div><%= order.address.city %>, <%= order.address.state %> <%= order.address.pincode %></div>
+            </div>
+        </div>
+
+        <div class="invoice-details">
+            <div>
+                <div class="section-title">Payment Method</div>
+                <div>
+                    <% if (order.paymentMethod === 'cod') { %>
+                        Cash On Delivery
+                    <% } else if (order.paymentMethod === 'online') { %>
+                        Online Payment
+                    <% } else if (order.paymentMethod === 'wallet') { %>
+                        Wallet Payment
+                    <% } %>
+                </div>
+            </div>
+            <div>
+                <div class="section-title">Order Status</div>
+                <div class="status-badge">Delivered</div>
+                <div><%= new Date(order.deliveredOn).toLocaleDateString() %></div>
+            </div>
+        </div>
+
+        <div class="section-title">Order Items</div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Price</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% order.orderedItems.forEach(item => { %>
+                    <tr>
+                        
+                        <td><%= item.productName %></td>
+                        <td><%= item.quantity %></td>
+                        <td>₹<%= item.price.toFixed(2) %></td>
+                        <td>₹<%= (item.price * item.quantity).toFixed(2) %></td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+
+        <div class="total-section">
+            <div class="total-row">
+                <div class="total-label">Subtotal:</div>
+                <div class="total-value">₹<%= order.totalPrice.toFixed(2) %></div>
+            </div>
+            <% if (order.discount > 0) { %>
+                <div class="total-row">
+                    <div class="total-label">Discount:</div>
+                    <div class="total-value">-₹<%= order.discount.toFixed(2) %></div>
+                </div>
+            <% } %>
+            <div class="total-row">
+                <div class="total-label">Delivery Charge:</div>
+                <div class="total-value">₹<%= order.deliveryCharge.toFixed(2) %></div>
+            </div>
+            <div class="total-row grand-total">
+                <div class="total-label">Grand Total:</div>
+                <div class="total-value">₹<%= order.finalAmount.toFixed(2) %></div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Thank you for your purchase!</p>
+            <p>For any questions or concerns regarding this invoice, please contact <a href="mailto:abc@gmail.com">customer support</a>.</p>
+        </div>
+    </div>
+</body>
+</html>

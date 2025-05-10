@@ -1,508 +1,841 @@
+<%- include("../../views/partials/user/header") %>
+<%- include("../../views/partials/user/loader") %>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+<link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
+<!-- Include Font Awesome CDN -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-<%- include('../../views/partials/user/header'); %>
-    <!-- Hero Section Begin -->
-    <section class="hero">
-        <div class="hero__slider owl-carousel">
-            <div class="hero__items set-bg" data-setbg="img/hero/hero-1.jpg">
+
+<script src="script.js"></script>
+
+<script src="main.js"></script>
+
+<style>
+    :root {
+        --primary: #1a2526;
+        --secondary: #3b4f50;
+        --accent: #b7950b;
+        --text-light: #f5f5f5;
+        --text-dark: #1a2526;
+        --bg-light: #ffffff;
+    }
+
+    body {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        font-family: 'Roboto', sans-serif;
+        color: var(--text-dark);
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Hero Slider */
+    .hero {
+        position: relative;
+        margin-bottom: 40px;
+    }
+
+    .hero__slider .owl-stage-outer {
+        overflow: hidden;
+    }
+
+    .hero__items {
+        position: relative;
+        height: 500px;
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        align-items: center;
+    }
+
+    .hero__items::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.4);
+        z-index: 1;
+    }
+
+    .hero__text {
+        position: relative;
+        z-index: 2;
+        color: var(--text-light);
+        padding: 20px;
+    }
+
+    .hero__text h2 {
+        font-family: 'Playfair Display', serif;
+        font-size: 48px;
+        margin-bottom: 15px;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero__text p {
+        font-size: 18px;
+        margin-bottom: 25px;
+    }
+
+    .hero__text .primary-btn {
+        background: var(--accent);
+        color: var(--text-light);
+        padding: 12px 30px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .hero__text .primary-btn:hover {
+        background: #d4af37;
+        transform: translateY(-2px);
+    }
+
+    /* Product Section */
+    .product-section {
+        padding: 40px 0;
+    }
+
+    .section-title {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .section-title h1 {
+        font-family: 'Playfair Display', serif;
+        color: var(--primary);
+        font-size: 32px;
+        margin-bottom: 10px;
+        position: relative;
+    }
+
+    .section-title h1::after {
+        content: '';
+        position: absolute;
+        width: 50px;
+        height: 2px;
+        background: var(--accent);
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .section-title p {
+        font-size: 16px;
+        color: var(--text-dark);
+    }
+
+    .product__item {
+        background: var(--bg-light);
+        border-radius: 15px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+        transition: transform 0.3s ease;
+    }
+
+    .product__item:hover {
+        transform: translateY(-10px);
+    }
+
+    .product__item__pic {
+        position: relative;
+        height: 250px;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .product__item__pic .product__label {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background: var(--accent);
+        color: var(--text-light);
+        padding: 5px 10px;
+        border-radius: 5px;
+        font-size: 12px;
+    }
+
+    .product__item__text {
+        padding: 20px;
+        text-align: center;
+    }
+
+    .product__item__text h6 {
+        font-family: 'Playfair Display', serif;
+        font-size: 18px;
+        color: var(--primary);
+        margin-bottom: 10px;
+        transition: color 0.3s ease;
+    }
+
+    .product__item__text h5 {
+        font-size: 16px;
+        color: var(--accent);
+        margin-bottom: 15px;
+    }
+
+    .product__item__text .add-cart-btn {
+        background: var(--secondary);
+        color: var(--text-light);
+        padding: 8px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 14px;
+        transition: all 0.3s ease;
+    }
+
+    .product__item__text .add-cart-btn:hover {
+        background: var(--accent);
+        color: var(--text-light);
+    }
+
+    /* Single Product Slider */
+    .single-product-slider {
+        padding: 40px 0;
+    }
+
+    .single-product {
+        background: var(--bg-light);
+        border-radius: 15px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+        overflow: hidden;
+        transition: transform 0.3s ease;
+    }
+
+    .single-product:hover {
+        transform: translateY(-10px);
+    }
+
+    .single-product img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .single-product .product-details {
+        padding: 15px;
+        text-align: center;
+    }
+
+    .single-product .product-details h6 {
+        font-family: 'Playfair Display', serif;
+        font-size: 16px;
+        color: var(--primary);
+        margin-bottom: 10px;
+    }
+
+    .single-product .price h6 {
+        font-size: 14px;
+        color: var(--accent);
+        display: inline-block;
+        margin: 0 5px;
+    }
+
+    .single-product .price .l-through {
+        color: #999;
+        text-decoration: line-through;
+    }
+
+    .single-product .prd-bottom {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .single-product .social-info {
+        color: var(--primary);
+        text-decoration: none;
+        font-size: 14px;
+        transition: color 0.3s ease;
+    }
+
+    .single-product .social-info:hover {
+        color: var(--accent);
+    }
+
+    .single-product .social-info span {
+        font-size: 18px;
+        margin-right: 5px;
+    }
+
+    /* Features Area */
+    .features-area {
+        background: var(--bg-light);
+        padding: 40px 0;
+    }
+
+    .single-features {
+        text-align: center;
+        padding: 20px;
+        background: var(--secondary);
+        color: var(--text-light);
+        border-radius: 10px;
+        transition: transform 0.3s ease;
+    }
+
+    .single-features:hover {
+        transform: translateY(-10px);
+    }
+
+    .single-features .f-icon img {
+        width: 40px;
+        height: 40px;
+        margin-bottom: 15px;
+    }
+
+    .single-features h6 {
+        font-family: 'Playfair Display', serif;
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+
+    .single-features p {
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.8);
+    }
+
+    /* Responsiveness */
+    @media (max-width: 768px) {
+        .hero__items {
+            height: 400px;
+        }
+        .hero__text h2 {
+            font-size: 32px;
+        }
+        .hero__text p {
+            font-size: 16px;
+        }
+        .product__item__pic {
+            height: 200px;
+        }
+        .single-product img {
+            height: 150px;
+        }
+        .single-product .product-details h6 {
+            font-size: 14px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .hero__text {
+            text-align: center;
+        }
+        .hero__text h2 {
+            font-size: 24px;
+        }
+        .section-title h1 {
+            font-size: 24px;
+        }
+        .product__item__text h6 {
+            font-size: 16px;
+        }
+        .single-features {
+            padding: 15px;
+        }
+    }
+    .product-card img {
+    object-fit: cover;
+    height: 200px;
+    border-top-left-radius: 0.75rem;
+    border-top-right-radius: 0.75rem;
+}
+
+.card-body h6 {
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.price span {
+    font-size: 1rem;
+}
+
+.price small {
+    font-size: 0.875rem;
+}
+button i.ti-shopping-cart {
+  margin-right: 5px;
+  font-size: 16px;
+}
+
+</style>
+
+<!-- Hero Slider -->
+<section class="hero">
+    <div class="hero__slider owl-carousel">
+        <% if (banners && banners.length > 0) { %>
+            <% banners.forEach((banner) => { %>
+                <div class="hero__items" style="background-image: url('<%= banner.image %>');">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xl-5 col-lg-7 col-md-8">
+                                <!-- <div class="hero__text">
+                                    <h2><%= banner.title %></h2>
+                                    <p><%= banner.description %></p>
+                                    <a href="/shop" class="primary-btn">Shop Now</a>
+                                </div>
+                               -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+        <% } else { %>
+            <div class="hero__items" style="background-image: url('img/hero/default-banner.jpg');">
                 <div class="container">
                     <div class="row">
                         <div class="col-xl-5 col-lg-7 col-md-8">
                             <div class="hero__text">
-                                <h6>Summer Collection</h6>
-                                <h2>Fall - Winter Collections 2030</h2>
-                                <p>A specialist label creating luxury essentials. Ethically crafted with an unwavering
-                                commitment to exceptional quality.</p>
-                                <a href="#" class="primary-btn">Shop now <span class="arrow_right"></span></a>
-                                <div class="hero__social">
-                                    <a href="#"><i class="fa fa-facebook"></i></a>
-                                    <a href="#"><i class="fa fa-twitter"></i></a>
-                                    <a href="#"><i class="fa fa-pinterest"></i></a>
-                                    <a href="#"><i class="fa fa-instagram"></i></a>
+                                <h2>Welcome to Our Store</h2>
+                                <p>Explore our latest collections and find the perfect products for you.</p>
+                                <a href="/shop" class="primary-btn">Shop Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+    </div>
+</section>
+
+<!-- Latest Products -->
+<section class="product-section">
+    <div class="container">
+        <div class="section-title">
+            <h1>Latest Products</h1>
+            <p>Discover the essence of tradition with our exquisite collection of ethnic wear.</p>
+        </div>
+        <div class="row product__filter">
+            <% products.forEach((product) => { %>
+                <div class="col-lg-3 col-md-4 col-sm-6">
+                    <div class="product__item">
+                        <a href="/productDetails?id=<%= product._id %>">
+                            <div class="product__item__pic" style="background-image: url('<%= product.productImage[0] %>');">
+                                <% if (product.productOffer > 0) { %>
+                                    <span class="product__label">Sale</span>
+                                <% } %>
+                            </div>
+                        </a>
+                        <div class="product__item__text">
+                            <h6><%= product.productName %></h6>
+                            <h5>₹<%= product.salePrice %></h5>
+                            <a href="#" onclick="addToCart('<%= product._id %>')" class="add-cart-btn">+ Add to Cart</a>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+</section>
+
+<!-- Product Slider -->
+<!-- <section class="bg-white py-5">
+    <div class="container">
+        <div class="section-title">
+            <h1>Top Sellers by Category</h1>
+        </div>
+        <% for (const [catName, products] of Object.entries(mostSellingByCategory)) { %>
+            <div class="mb-5">
+                <h4 class="mb-4 text-center text-uppercase text-secondary"><%= catName %></h4>
+                <div class="row">
+                    <% products.forEach(product => { %>
+                        <div class="col-lg-3 col-md-6 mb-4">
+                            <div class="card product-card h-100 border-0 shadow-sm">
+                                <a href="/productDetails?id=<%= product._id %>">
+                                    <img src="<%= product.productImage[0] %>" class="card-img-top" alt="<%= product.productName %>">
+                                </a>
+                                <div class="card-body text-center">
+                                    <h6 class="card-title mb-2"><%= product.productName %></h6>
+                                    <div class="price mb-3">
+                                        <span class="text-primary fw-bold">₹<%= product.salePrice %></span>
+                                        <small class="text-muted text-decoration-line-through ms-2">₹<%= product.regularPrice %></small>
+                                    </div>
+                                    <button class="btn btn-outline-dark btn-sm me-2" onclick="addToCart('<%= product._id %>')">
+                                        <i class="bi bi-bag-plus"></i>
+                                    </button>
+                                    <button class="btn btn-outline-secondary btn-sm" onclick="addToWishlist('<%= product._id %>')">
+                                        <i class="bi bi-heart"></i>
+                                    </button>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    <% }); %>
                 </div>
             </div>
-            <div class="hero__items set-bg" data-setbg="img/hero/hero-2.jpg">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-xl-5 col-lg-7 col-md-8">
-                            <div class="hero__text">
-                                <h6>Summer Collection</h6>
-                                <h2>Fall - Winter Collections 2030</h2>
-                                <p>A specialist label creating luxury essentials. Ethically crafted with an unwavering
-                                commitment to exceptional quality.</p>
-                                <a href="#" class="primary-btn">Shop now <span class="arrow_right"></span></a>
-                                <div class="hero__social">
-                                    <a href="#"><i class="fa fa-facebook"></i></a>
-                                    <a href="#"><i class="fa fa-twitter"></i></a>
-                                    <a href="#"><i class="fa fa-pinterest"></i></a>
-                                    <a href="#"><i class="fa fa-instagram"></i></a>
+        <% } %>
+    </div>
+</section> -->
+
+    
+    <section class="product-section">
+        <div class="container">
+            <div class="section-title">
+                <h1>Most Selling Products</h1>
+                <p>Top-selling favorites loved by our customers</p>
+            </div>
+            <div class="row">
+                <% mostSellingProducts.forEach(product => { %>
+                    <div class="col-lg-3 col-md-6 col-sm-6">
+                        <div class="single-product">
+                            <a href="/productDetails?id=<%= product._id %>">
+                                <img src="<%= product.productImage[0] %>" alt="<%= product.productName %>">
+                                <div class="product-details">
+                                    <h6><%= product.productName %></h6>
+                                    <div class="price">
+                                        <h6>₹<%= product.salePrice %></h6>
+                                        <h6 class="l-through">₹<%= product.regularPrice %></h6>
+                                    </div>
                                 </div>
+                            </a>
+                            <div class="prd-bottom">
+                                <a href="#" onclick="addToCart('<%= product._id %>')" class="social-info">
+                                    <i class="bi bi-cart"></i>
+                                    <p class="hover-text"></p>
+                                </a>
+                                <a href="#" onclick="addToWishlist('<%= product._id %>')" class="social-info">
+                                    <span class="lnr lnr-heart"></span>
+                                    <p class="hover-text"></p>
+                                </a>
+                                <!-- <button class="btn btn-outline-secondary btn-sm add-to-wishlist" data-product-id="<%= product._id %>">
+                                    <i class="bi bi-heart"></i>
+                                </button> -->
+                                <a href="/productDetails?id=<%= product._id %>" class="social-info">
+                                    <span class="lnr lnr-move"></span>
+                                    <p class="hover-text"></p>
+                                </a>
                             </div>
                         </div>
                     </div>
-                </div>
+                <% }); %>
             </div>
         </div>
     </section>
-    <!-- Hero Section End -->
+</section>
 
-    <!-- Banner Section Begin -->
-    <section class="banner spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-7 offset-lg-4">
-                    <div class="banner__item">
-                        <div class="banner__item__pic">
-                            <img src="img/banner/banner-1.jpg" alt="">
-                        </div>
-                        <div class="banner__item__text">
-                            <h2>Clothing Collections 2030</h2>
-                            <a href="#">Shop now</a>
-                        </div>
+<!-- Features Area -->
+<section class="features-area">
+    <div class="container">
+        <div class="row features-inner">
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="single-features">
+                    <div class="f-icon">
+                        <img src="img/features/f-icon1.png" alt="Free Delivery">
                     </div>
+                    <h6>Free Delivery</h6>
+                    <p>Free Shipping on all orders</p>
                 </div>
-                <div class="col-lg-5">
-                    <div class="banner__item banner__item--middle">
-                        <div class="banner__item__pic">
-                            <img src="img/banner/banner-2.jpg" alt="">
-                        </div>
-                        <div class="banner__item__text">
-                            <h2>Accessories</h2>
-                            <a href="#">Shop now</a>
-                        </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="single-features">
+                    <div class="f-icon">
+                        <img src="img/features/f-icon2.png" alt="Return Policy">
                     </div>
+                    <h6>Return Policy</h6>
+                    <p>Easy returns on all orders</p>
                 </div>
-                <div class="col-lg-7">
-                    <div class="banner__item banner__item--last">
-                        <div class="banner__item__pic">
-                            <img src="img/banner/banner-3.jpg" alt="">
-                        </div>
-                        <div class="banner__item__text">
-                            <h2>Shoes Spring 2030</h2>
-                            <a href="#">Shop now</a>
-                        </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="single-features">
+                    <div class="f-icon">
+                        <img src="img/features/f-icon3.png" alt="24/7 Support">
                     </div>
+                    <h6>24/7 Support</h6>
+                    <p>Round-the-clock assistance</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="single-features">
+                    <div class="f-icon">
+                        <img src="img/features/f-icon4.png" alt="Secure Payment">
+                    </div>
+                    <h6>Secure Payment</h6>
+                    <p>Safe and secure transactions</p>
                 </div>
             </div>
         </div>
-    </section>
-    <!-- Banner Section End -->
+    </div>
+</section>
 
-    <!-- Product Section Begin -->
-    <section class="product spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <ul class="filter__controls">
-                        <li class="active" data-filter="*">Best Sellers</li>
-                        <li data-filter=".new-arrivals">New Arrivals</li>
-                        <li data-filter=".hot-sales">Hot Sales</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="row product__filter">
-                <div class="col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6 mix new-arrivals">
-                    <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="img/product/product-1.jpg">
-                            <span class="label">New</span>
-                            <ul class="product__hover">
-                                <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-                                <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
-                                <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
-                            </ul>
-                        </div>
-                        <div class="product__item__text">
-                            <h6>Piqué Biker Jacket</h6>
-                            <a href="#" class="add-cart">+ Add To Cart</a>
-                            <div class="rating">
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                            </div>
-                            <h5>$67.24</h5>
-                            <div class="product__color__select">
-                                <label for="pc-1">
-                                    <input type="radio" id="pc-1">
-                                </label>
-                                <label class="active black" for="pc-2">
-                                    <input type="radio" id="pc-2">
-                                </label>
-                                <label class="grey" for="pc-3">
-                                    <input type="radio" id="pc-3">
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6 mix hot-sales">
-                    <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="img/product/product-2.jpg">
-                            <ul class="product__hover">
-                                <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-                                <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
-                                <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
-                            </ul>
-                        </div>
-                        <div class="product__item__text">
-                            <h6>Piqué Biker Jacket</h6>
-                            <a href="#" class="add-cart">+ Add To Cart</a>
-                            <div class="rating">
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                            </div>
-                            <h5>$67.24</h5>
-                            <div class="product__color__select">
-                                <label for="pc-4">
-                                    <input type="radio" id="pc-4">
-                                </label>
-                                <label class="active black" for="pc-5">
-                                    <input type="radio" id="pc-5">
-                                </label>
-                                <label class="grey" for="pc-6">
-                                    <input type="radio" id="pc-6">
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6 mix new-arrivals">
-                    <div class="product__item sale">
-                        <div class="product__item__pic set-bg" data-setbg="img/product/product-3.jpg">
-                            <span class="label">Sale</span>
-                            <ul class="product__hover">
-                                <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-                                <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
-                                <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
-                            </ul>
-                        </div>
-                        <div class="product__item__text">
-                            <h6>Multi-pocket Chest Bag</h6>
-                            <a href="#" class="add-cart">+ Add To Cart</a>
-                            <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star-o"></i>
-                            </div>
-                            <h5>$43.48</h5>
-                            <div class="product__color__select">
-                                <label for="pc-7">
-                                    <input type="radio" id="pc-7">
-                                </label>
-                                <label class="active black" for="pc-8">
-                                    <input type="radio" id="pc-8">
-                                </label>
-                                <label class="grey" for="pc-9">
-                                    <input type="radio" id="pc-9">
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6 mix hot-sales">
-                    <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="img/product/product-4.jpg">
-                            <ul class="product__hover">
-                                <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-                                <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
-                                <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
-                            </ul>
-                        </div>
-                        <div class="product__item__text">
-                            <h6>Diagonal Textured Cap</h6>
-                            <a href="#" class="add-cart">+ Add To Cart</a>
-                            <div class="rating">
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                            </div>
-                            <h5>$60.9</h5>
-                            <div class="product__color__select">
-                                <label for="pc-10">
-                                    <input type="radio" id="pc-10">
-                                </label>
-                                <label class="active black" for="pc-11">
-                                    <input type="radio" id="pc-11">
-                                </label>
-                                <label class="grey" for="pc-12">
-                                    <input type="radio" id="pc-12">
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6 mix new-arrivals">
-                    <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="img/product/product-5.jpg">
-                            <ul class="product__hover">
-                                <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-                                <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
-                                <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
-                            </ul>
-                        </div>
-                        <div class="product__item__text">
-                            <h6>Lether Backpack</h6>
-                            <a href="#" class="add-cart">+ Add To Cart</a>
-                            <div class="rating">
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                            </div>
-                            <h5>$31.37</h5>
-                            <div class="product__color__select">
-                                <label for="pc-13">
-                                    <input type="radio" id="pc-13">
-                                </label>
-                                <label class="active black" for="pc-14">
-                                    <input type="radio" id="pc-14">
-                                </label>
-                                <label class="grey" for="pc-15">
-                                    <input type="radio" id="pc-15">
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6 mix hot-sales">
-                    <div class="product__item sale">
-                        <div class="product__item__pic set-bg" data-setbg="img/product/product-6.jpg">
-                            <span class="label">Sale</span>
-                            <ul class="product__hover">
-                                <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-                                <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
-                                <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
-                            </ul>
-                        </div>
-                        <div class="product__item__text">
-                            <h6>Ankle Boots</h6>
-                            <a href="#" class="add-cart">+ Add To Cart</a>
-                            <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star-o"></i>
-                            </div>
-                            <h5>$98.49</h5>
-                            <div class="product__color__select">
-                                <label for="pc-16">
-                                    <input type="radio" id="pc-16">
-                                </label>
-                                <label class="active black" for="pc-17">
-                                    <input type="radio" id="pc-17">
-                                </label>
-                                <label class="grey" for="pc-18">
-                                    <input type="radio" id="pc-18">
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6 mix new-arrivals">
-                    <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="img/product/product-7.jpg">
-                            <ul class="product__hover">
-                                <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-                                <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
-                                <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
-                            </ul>
-                        </div>
-                        <div class="product__item__text">
-                            <h6>T-shirt Contrast Pocket</h6>
-                            <a href="#" class="add-cart">+ Add To Cart</a>
-                            <div class="rating">
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                            </div>
-                            <h5>$49.66</h5>
-                            <div class="product__color__select">
-                                <label for="pc-19">
-                                    <input type="radio" id="pc-19">
-                                </label>
-                                <label class="active black" for="pc-20">
-                                    <input type="radio" id="pc-20">
-                                </label>
-                                <label class="grey" for="pc-21">
-                                    <input type="radio" id="pc-21">
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-6 col-sm-6 col-md-6 col-sm-6 mix hot-sales">
-                    <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="img/product/product-8.jpg">
-                            <ul class="product__hover">
-                                <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-                                <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
-                                <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
-                            </ul>
-                        </div>
-                        <div class="product__item__text">
-                            <h6>Basic Flowing Scarf</h6>
-                            <a href="#" class="add-cart">+ Add To Cart</a>
-                            <div class="rating">
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                            </div>
-                            <h5>$26.28</h5>
-                            <div class="product__color__select">
-                                <label for="pc-22">
-                                    <input type="radio" id="pc-22">
-                                </label>
-                                <label class="active black" for="pc-23">
-                                    <input type="radio" id="pc-23">
-                                </label>
-                                <label class="grey" for="pc-24">
-                                    <input type="radio" id="pc-24">
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Product Section End -->
+<%- include("../../views/partials/user/footer") %>
 
-    <!-- Categories Section Begin -->
-    <section class="categories spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="categories__text">
-                        <h2>Clothings Hot <br /> <span>Shoe Collection</span> <br /> Accessories</h2>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="categories__hot__deal">
-                        <img src="img/product-sale.png" alt="">
-                        <div class="hot__deal__sticker">
-                            <span>Sale Of</span>
-                            <h5>$29.99</h5>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 offset-lg-1">
-                    <div class="categories__deal__countdown">
-                        <span>Deal Of The Week</span>
-                        <h2>Multi-pocket Chest Bag Black</h2>
-                        <div class="categories__deal__countdown__timer" id="countdown">
-                            <div class="cd-item">
-                                <span>3</span>
-                                <p>Days</p>
-                            </div>
-                            <div class="cd-item">
-                                <span>1</span>
-                                <p>Hours</p>
-                            </div>
-                            <div class="cd-item">
-                                <span>50</span>
-                                <p>Minutes</p>
-                            </div>
-                            <div class="cd-item">
-                                <span>18</span>
-                                <p>Seconds</p>
-                            </div>
-                        </div>
-                        <a href="#" class="primary-btn">Shop now</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Categories Section End -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-    <!-- Instagram Section Begin -->
-    <section class="instagram spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8">
-                    <div class="instagram__pic">
-                        <div class="instagram__pic__item set-bg" data-setbg="img/instagram/instagram-1.jpg"></div>
-                        <div class="instagram__pic__item set-bg" data-setbg="img/instagram/instagram-2.jpg"></div>
-                        <div class="instagram__pic__item set-bg" data-setbg="img/instagram/instagram-3.jpg"></div>
-                        <div class="instagram__pic__item set-bg" data-setbg="img/instagram/instagram-4.jpg"></div>
-                        <div class="instagram__pic__item set-bg" data-setbg="img/instagram/instagram-5.jpg"></div>
-                        <div class="instagram__pic__item set-bg" data-setbg="img/instagram/instagram-6.jpg"></div>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="instagram__text">
-                        <h2>Instagram</h2>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                        labore et dolore magna aliqua.</p>
-                        <h3>#Male_Fashion</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Instagram Section End -->
+<script>
+   
+		document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute("href"));
+            if (target) {
+                target.scrollIntoView({ behavior: "smooth" });
+            }
+        });
+    });
+});
 
-    <!-- Latest Blog Section Begin -->
-    <section class="latest spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="section-title">
-                        <span>Latest News</span>
-                        <h2>Fashion New Trends</h2>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="blog__item">
-                        <div class="blog__item__pic set-bg" data-setbg="img/blog/blog-1.jpg"></div>
-                        <div class="blog__item__text">
-                            <span><img src="img/icon/calendar.png" alt=""> 16 February 2020</span>
-                            <h5>What Curling Irons Are The Best Ones</h5>
-                            <a href="#">Read More</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="blog__item">
-                        <div class="blog__item__pic set-bg" data-setbg="img/blog/blog-2.jpg"></div>
-                        <div class="blog__item__text">
-                            <span><img src="img/icon/calendar.png" alt=""> 21 February 2020</span>
-                            <h5>Eternity Bands Do Last Forever</h5>
-                            <a href="#">Read More</a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6">
-                    <div class="blog__item">
-                        <div class="blog__item__pic set-bg" data-setbg="img/blog/blog-3.jpg"></div>
-                        <div class="blog__item__text">
-                            <span><img src="img/icon/calendar.png" alt=""> 28 February 2020</span>
-                            <h5>The Health Benefits Of Sunglasses</h5>
-                            <a href="#">Read More</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Latest Blog Section End -->
-    <%- include('../../views/partials/user/footer'); %>
+
+function handleAuthError(title, message) {
+  return Swal.fire({
+    title: title,
+    text: message,
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Login",
+    cancelButtonText: "Cancel",
+    reverseButtons: true
+  }).then((result) => {
+    if (result.isConfirmed) {
+      window.location.href = "/login";
+    }
+  });
+}
+
+function addToWishlist(productId) {
+    if (!productId) {
+        console.warn('Product ID missing');
+        return;
+    }
+    showLoader();
+    $.ajax({
+        url: '/addToWishlist',
+        method: 'POST',
+        data: { productId: productId },
+        success: (response) => {
+            hideLoader();
+            if (response.status) {
+                Swal.fire({
+                    title: 'Added to Wishlist',
+                    text: 'The product has been added to your wishlist.',
+                    icon: 'success',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                fetchCartWishlistCount();
+            } else {
+                Swal.fire({
+                    title: 'Already in Wishlist',
+                    text: response.message,
+                    icon: 'info',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                fetchCartWishlistCount();
+            }
+        },
+        error: (xhr) => {
+            hideLoader();
+            if (xhr.status === 401) {
+                handleAuthError(
+                    'Not Logged In',
+                    'You need to log in to add items to your wishlist.'
+                );
+            } else {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'There was an error adding the product to your wishlist.',
+                    icon: 'error',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+            }
+        }
+    });
+}
+function addToWishlist1(productId) {
+    showLoader();
+    $.ajax({
+        url: '/addToWishlist',
+        method: "POST",
+        data: { productId: productId },
+        success: (response) => {
+            hideLoader();
+            if (response.status) {
+                Swal.fire({
+                    title: "Added to Wishlist",
+                    text: "The product has been added to your wishlist.",
+                    icon: "success",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                fetchCartWishlistCount(); // Update navbar counters
+            } else {
+                Swal.fire({
+                    title: "Already in Wishlist",
+                    text: response.message,
+                    icon: "info",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+                fetchCartWishlistCount(); // Update navbar counters
+            }
+        },
+        error: (xhr) => {
+            hideLoader();
+            if (xhr.status === 401) {
+                handleAuthError(
+                    "Not Logged In",
+                    "You need to log in to add items to your wishlist."
+                );
+            } else {
+                Swal.fire({
+                    title: "Error",
+                    text: "There was an error adding the product to your wishlist.",
+                    icon: "error",
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+            }
+        }
+    });
+}
+function addToCart(productId) {
+    showLoader();
+    $.ajax({
+        url: '/addToCart',
+        method: 'POST',
+        data: { productId: productId },
+        success: (response) => {
+            hideLoader();
+            if (response.status) {
+                Swal.fire({
+                    title: 'Added to Cart',
+                    text: response.message,
+                    icon: 'success',
+                    showCancelButton: true,
+                    confirmButtonText: 'Go to Cart',
+                    cancelButtonText: 'OK',
+                    timer: 2000
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = '/cart';
+                    }
+                    fetchCartWishlistCount();
+                });
+            } else {
+                Swal.fire({
+                    title: 'Error',
+                    text: response.message || 'Unable to add to cart',
+                    icon: 'error',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+            }
+        },
+        error: (xhr) => {
+            hideLoader();
+            if (xhr.status === 401) {
+                handleAuthError(
+                    'Not Logged In',
+                    'You need to log in to add items to your cart.'
+                );
+            } else {
+                Swal.fire({
+                    title: 'Error',
+                    text: 'Stock limit reached or maximum 5 items per user',
+                    icon: 'error',
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+            }
+        }
+    });
+}
+function addToCart1(productId) {
+  $.ajax({
+    url: '/addToCart',
+    method: "POST",
+    data: { productId: productId },
+    success: (response) => {
+      if (response.status) {
+        Swal.fire({
+			title: "Added to Cart",
+			text: response.message,
+			icon: "success",
+			showCancelButton: true,  // Enables the second button
+			confirmButtonText: "Cart", // Redirects to cart
+			cancelButtonText: "OK",  // Closes the alert
+			timer: 2000
+		}).then((result) => {
+            
+			if (result.isConfirmed) {
+				window.location.href = "/cart"; // Redirects to the cart page
+			} else {
+				location.reload(); // Reload to update cart UI
+			}
+		});
+
+      } else {
+        Swal.fire({
+          title: "Error",
+          text: response.message || "Unable to add to cart",
+          icon: "error",
+          timer: 2000,
+          showConfirmButton: false
+        });
+        fetchCartWishlistCount();
+      }
+    },
+    error: (xhr) => {
+      if (xhr.status === 401) {
+        handleAuthError(
+          "Not Logged In",
+          "You need to log in to add items to your cart."
+        );
+      } else {
+        Swal.fire({
+          title: "Error",
+          text: "Stock limit reached or maximum 5 items per user",
+          icon: "error",
+          timer: 2000,
+          showConfirmButton: false
+        });
+      }
+    }
+  });
+}
+
+
+
+
+    $(document).ready(function () {
+        $(".hero__slider").owlCarousel({
+            items: 1,
+            loop: true,
+            autoplay: true,
+            autoplayTimeout: 3000,
+            autoplayHoverPause: true,
+            nav: false,
+            dots: true,
+            animateOut: 'fadeOut',
+            animateIn: 'fadeIn'
+        });
+
+        $("#product_section_main").owlCarousel({
+            items: 1,
+            loop: true,
+            autoplay: true,
+            autoplayTimeout: 5000,
+            autoplayHoverPause: true,
+            nav: false,
+            dots: true
+        });
+    });
+
+    document.addEventListener('click', (e) => {
+        const wishlistBtn = e.target.closest('.add-to-wishlist');
+        if (wishlistBtn) {
+            e.preventDefault();
+            const productId = wishlistBtn.dataset.productId;
+            addToWishlist(productId);
+        }
+    });
+</script>

@@ -57,7 +57,6 @@
         prependTo: '#mobile-menu-wrap',
         allowParentLinks: true
     });
-
     /*------------------
         Accordin Active
     --------------------*/
@@ -146,9 +145,9 @@
 
     /* var timerdate = "2020/12/30" */
 
-    $("#countdown").countdown(timerdate, function (event) {
-        $(this).html(event.strftime("<div class='cd-item'><span>%D</span> <p>Days</p> </div>" + "<div class='cd-item'><span>%H</span> <p>Hours</p> </div>" + "<div class='cd-item'><span>%M</span> <p>Minutes</p> </div>" + "<div class='cd-item'><span>%S</span> <p>Seconds</p> </div>"));
-    });
+    // $("#countdown").countdown(timerdate, function (event) {
+    //     $(this).html(event.strftime("<div class='cd-item'><span>%D</span> <p>Days</p> </div>" + "<div class='cd-item'><span>%H</span> <p>Hours</p> </div>" + "<div class='cd-item'><span>%M</span> <p>Minutes</p> </div>" + "<div class='cd-item'><span>%S</span> <p>Seconds</p> </div>"));
+    // });
 
     /*------------------
 		Magnific
@@ -214,3 +213,47 @@
     });
 
 })(jQuery);
+
+
+
+
+var value,
+quantity = document.getElementsByClassName('quantity-container');
+
+function createBindings(quantityContainer) {
+var quantityAmount = quantityContainer.getElementsByClassName('quantity-amount')[0];
+var increase = quantityContainer.getElementsByClassName('increase')[0];
+var decrease = quantityContainer.getElementsByClassName('decrease')[0];
+increase.addEventListener('click', function () { increaseValue(quantityAmount); });
+decrease.addEventListener('click', function () { decreaseValue(quantityAmount); });
+}
+
+function init() {
+for (var i = 0; i < quantity.length; i++ ) {
+    createBindings(quantity[i]);
+}
+};
+
+function increaseValue(quantityAmount) {
+value = parseInt(quantityAmount.value, 10);
+
+console.log(quantityAmount, quantityAmount.value);
+
+value = isNaN(value) ? 0 : value;
+value++;
+quantityAmount.value = value;
+}
+
+    // Show and hide loader globally
+   
+/////////////////////////////////////
+function decreaseValue(quantityAmount) {
+value = parseInt(quantityAmount.value, 10);
+
+value = isNaN(value) ? 0 : value;
+if (value > 0) value--;
+
+quantityAmount.value = value;
+}
+
+init();

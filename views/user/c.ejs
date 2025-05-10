@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MuscleBlaze</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<link rel="stylesheet" href="cart.css">
+<body>
+
+    <%- include('../../views/partials/user/header') %>
+
+    <div class="breadcrumbs">
+      <a href="/">Home</a>  <a href="/cart">Cart</a>
+  </div>
+
+
+    <h1>Your Cart</h1>
+    <div class="container">
+    
+      <div class="cart-left">
+        <% if (items.length === 0) { %>
+          <p class="empty-cart-message">Your cart is empty!</p>
+        <% } else { %>
+          <% items.forEach(item => { %>
+            <div class="cart-item-box" data-product-id="<%= item.productId._id %>">
+              <div class="cart-item-image">
+                <img src="/uploads/product-images/<%= item.productId.productImage[0] || 'default-image.jpg' %>" alt="<%= item.productId.name %>">
+              </div>
+              <div class="cart-item-details">
+                <h3><%= item.productId.productName %></h3>
+                <p class="item-weight"><strong>Weight:</strong> <%= item.productId.size ? item.productId.size + ' kg' : 'N/A' %></p>
+                <p class="item-flavor"><strong>Flavor:</strong> <%= item.productId.flavor || 'N/A' %></p>
+                <div class="prices">
+                  <span class="regular-price">₹<%= item.productId.regularPrice.toFixed(2) %></span>
+                  <span class="sale-price" id="price-<%= item.productId._id %>" data-price="<%= item.productId.salePrice %>">₹<%= item.productId.salePrice.toFixed(2) %></span>
+                </div>
+                <div class="quantity-controls">
+                  <button 
+                    class="quantity-decrease" 
+                    data-product-id="<%= item.productId._id %>"
+                    onclick="updateQuantity('<%= item.productId._id %>', 'decrease')" 
+                    <%= item.quantity <= 1 ? 'disabled' : '' %>
+                  >-</button>
+    
+                  <span class="quantity" id="quantity-<%= item.productId._id %>"><%= item.quantity %></span>
+    
+                  <button 
+  class="quantity-increase" 
+  data-product-id="<%= item.productId._id %>"
+  onclick="updateQuantity('<%= item.productId._id %>', 'increase')" 
+  data-stock="<%= item.productId.quantity %>"
+  <%= item.quantity >= 5 || item.quantity >= item.productId.quantity ? 'disabled' : '' %>
+>+</button>
+
+                </div>
+                <p class="total-price" id="total-price-<%= item.productId._id %>">₹<%= (item.productId.salePrice * item.quantity).toFixed(2) %></p>
+                <div class="cart-item-actions">
+                  <button class="wishlist-btn" data-product-id="<%= item.productId._id %>">Add to Wishlist</button>
+                  <button class="delete-btn" onclick="deleteFromCart('<%= item.productId._id %>')">Delete</button>
+                </div>
+              </div>
+            </div>
+          <% }); %>
+        <% } %>
+      </div>
+    
+    
+      <div class="cart-right">
+        <h2>Order Summary</h2>
+        <div class="summary-details">
+          <p><strong>Total Items:</strong> <span id="total-items"><%= items.reduce((sum, item) => sum + item.quantity, 0) %></span></p>
+
+          <p><strong>Grand Total:</strong> <span id="grand-total">₹<%= items.reduce((sum, item) => sum + (item.productId.salePrice * item.quantity), 0).toFixed(2) %></span></p>
+        </div>
+        <button class="checkout-btn" onclick="window.location.href='/checkout'">Proceed to Checkout</button>
+      </div>
+    </div>
+    
+    
+      
+      
+   
+   
+    <%- include('../../views/partials/user/footer') %>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+<% if (typeof swalMessage !== "undefined" && swalMessage) { %>
+  <script>
+      Swal.fire({
+          title: "Product Unavailable",
+          text: "<%= swalMessage %>",
+          icon: "warning",
+          confirmButtonText: "OK"
+      }).then(() => {
+          const newUrl = window.location.href.split("?")[0];
+          window.history.replaceState({}, document.title, newUrl);
+      });
+  </script>
+<% } %>
+
+
+
+
+
+
+
+
+<script>
+
+
+//---------------------------------------------
+function updateQuantity(productId, action) {
+  const quantityElement = document.getElementById(quantity-${productId});
+  let quantity = parseInt(quantityElement.innerText, 10);
+
+ 
+  const stock = parseInt(document.querySelector([data-product-id="${productId}"]).querySelector(".quantity-increase").getAttribute('data-stock'), 10);
+
+  if (action === 'increase' && quantity < 5 && quantity < stock) {
+    quantity += 1;
+  } else if (action === 'decrease' && quantity > 1) {
+    quantity -= 1;
+  }
+
+  fetch('/cart/update-quantity', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      productId: productId,
+      action: action,
+    }),
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+     
+      quantityElement.innerText = data.updatedQuantity;
+
+    
+      const pricePerItem = parseFloat(document.getElementById(price-${productId}).getAttribute('data-price'));
+      const totalPriceElement = document.getElementById(total-price-${productId});
+      totalPriceElement.innerText = ₹${(pricePerItem * data.updatedQuantity).toFixed(2)};
+
+   
+      updateGrandTotal();
+
+    
+      updateButtonStates(productId, data.updatedQuantity, stock);
+    } else {
+      alert("Something went wrong while updating the cart.");
+    }
+  })
+  .catch(error => {
+    alert("Error: " + error);
+  });
+}
+
+
+function updateButtonStates(productId, quantity, stock) {
+  const decreaseBtn = document.querySelector([data-product-id="${productId}"] .quantity-decrease);
+  const increaseBtn = document.querySelector([data-product-id="${productId}"] .quantity-increase);
+
+
+  if (quantity <= 1) {
+    decreaseBtn.setAttribute('disabled', 'true');
+  } else {
+    decreaseBtn.removeAttribute('disabled');
+  }
+
+
+  if (quantity >= 5 || quantity >= stock) {
+    increaseBtn.setAttribute('disabled', 'true');
+  } else {
+    increaseBtn.removeAttribute('disabled');
+  }
+}
+
+
+function updateGrandTotal() {
+    let grandTotal = 0;
+    let totalItems = 0;
+
+    document.querySelectorAll(".cart-item-box").forEach(item => {
+        const totalPriceElement = item.querySelector(".total-price");
+        const quantityElement = item.querySelector(".quantity");
+
+        if (totalPriceElement && quantityElement) {
+            grandTotal += parseFloat(totalPriceElement.innerText.replace("₹", "")) || 0;
+            totalItems += parseInt(quantityElement.innerText, 10) || 0;
+        }
+    });
+
+    document.getElementById("grand-total").innerText = ₹${grandTotal.toFixed(2)};
+    document.getElementById("total-items").innerText = totalItems; 
+}
+
+
+
+//---------------------------------------
+function deleteFromCart(productId) {
+
+  fetch('/cart/delete', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ productId }),  
+  })
+  .then(response => response.json())  
+  .then(data => {
+    if (data.success) {
+      
+      const itemElement = document.querySelector([data-product-id="${productId}"]);  
+      if (itemElement) {
+        itemElement.remove();  
+      }
+
+     
+      updateCartSummary(data.updatedCart);
+      location.reload();
+      
+    } else {
+      
+      alert('Failed to delete product');
+    }
+  })
+  .catch(error => {
+  
+    console.error('Error:', error);
+    alert('Failed to delete product');
+  });
+}
+
+
+function updateCartSummary(updatedCart) {
+  const totalPriceElement = document.getElementById('total-price');
+  const totalItemsElement = document.getElementById('total-items');
+
+  if (updatedCart) {
+    const totalPrice = updatedCart.items.reduce((sum, item) => sum + item.totalPrice, 0);
+    const totalItems = updatedCart.items.length;
+
+    totalPriceElement.innerText = ₹${totalPrice.toFixed(2)};
+    totalItemsElement.innerText = totalItems;
+  }
+}
+//---------------------------
+document.addEventListener("click", function(event) {
+    if (event.target.classList.contains("wishlist-btn")) {
+        const productId = event.target.getAttribute("data-product-id");
+        addToWishlist(productId);
+    }
+});
+
+
+function addToWishlist(productId) {
+    console.log("Wishlist button clicked! Product ID:", productId); 
+
+    fetch('/wishlist/add', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ productId })
+    })
+    .then(response => {
+        console.log("Raw response:", response); 
+        return response.json();
+    })
+    .then(data => {
+        console.log("Parsed JSON response:", data);
+
+        if (data.success) {
+            Swal.fire({
+                icon: "success",
+                title: "Added to Wishlist! ❤",
+                text: "The product has been added to your wishlist.",
+                showConfirmButton: false,
+                timer: 2000
+            });
+
+            document.getElementById(wishlist-icon-${productId})?.classList.add('wishlist-added');
+
+        } else if (data.message === 'Product already in wishlist') {
+            Swal.fire({
+                icon: "info",
+                title: "Already in Wishlist!",
+                text: "This product is already in your wishlist.",
+                showConfirmButton: false,
+                timer: 2000
+            });
+
+        } else {
+            throw new Error("Failed to add product to wishlist.");
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        Swal.fire({
+            icon: "error",
+            title: "Oops!",
+            text: "Something went wrong. Please try again later.",
+        });
+    });
+}
+
+
+</script>
+</html>

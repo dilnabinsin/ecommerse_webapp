@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* Custom animations */
+        .fade-in {
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .hover-scale {
+            transition: transform 0.3s ease;
+        }
+        .hover-scale:hover {
+            transform: scale(1.05);
+        }
+        .form-control:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+        }
+        /* Smooth scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+        .submit-btn1 {
+            background-color: #3b82f6;
+            color: white;
+            font-weight: 600;
+            padding: 12px 24px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            display: inline-block;
+            min-width: 150px;
+            text-align: center;
+        }
+        .submit-btn1:disabled {
+            background-color: #93c5fd;
+            cursor: not-allowed;
+        }
+        /* Smooth scroll behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+    <!-- Header (Assuming partial is similar) -->
+    <%- include('../partials/user/header') %>
+
+    <!-- Contact Section -->
+    <section class="py-16">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h1 class="text-4xl font-bold text-gray-800 mb-4 fade-in">Get in Touch</h1>
+                <p class="text-lg text-gray-600 fade-in">We'd love to hear from you! Reach out with any questions or feedback.</p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Contact Information -->
+                <div class="bg-white rounded-lg shadow-lg p-6 fade-in">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-6">Contact Information</h2>
+                    <div class="space-y-6">
+                        <div class="flex items-start">
+                            <i class="fas fa-home text-blue-500 text-2xl mr-4 mt-1"></i>
+                            <div>
+                                <h3 class="text-lg font-medium text-gray-700">Address</h3>
+                                <p class="text-gray-600"> Brototype, Kannur</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-phone-alt text-blue-500 text-2xl mr-4 mt-1"></i>
+                            <div>
+                                <h3 class="text-lg font-medium text-gray-700">Phone</h3>
+                                <p class="text-gray-600">
+                                    <a href="tel:+000000000000" class="text-blue-600 hover:underline">+00 000 0000 000</a>
+                                </p>
+                                <p class="text-gray-600">Mon to Fri, 9am to 6pm</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <i class="fas fa-envelope text-blue-500 text-2xl mr-4 mt-1"></i>
+                            <div>
+                                <h3 class="text-lg font-medium text-gray-700">Email</h3>
+                                <p class="text-gray-600">
+                                    <a href="mailto:dilnagangadharan@gmail.com" class="text-blue-600 hover:underline">dilnagangadharan@gmail.com</a>
+                                </p>
+                                <p class="text-gray-600">Send us your query anytime!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Contact Form -->
+                <div class="lg:col-span-2 bg-white rounded-lg shadow-lg p-6 fade-in">
+                    <form id="contactForm" action="https://api.web3forms.com/submit" method="post" class="space-y-6">
+                        <input type="hidden" name="access_key" value="587b49ca-f0f4-4cf8-9128-530fcb628868">
+                        <input type="hidden" name="email" value="dilnagangadharan@gmail.com">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-gray-700">Your Name</label>
+                                <input type="text" id="name" name="name" class="form-control mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Your Name" required>
+                            </div>
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700">Your Email</label>
+                                <input type="email" id="email" name="email" class="form-control mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Your Email" required>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="subject" class="block text-sm font-medium text-gray-700">Subject</label>
+                            <input type="text" id="subject" name="subject" class="form-control mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Subject" required>
+                        </div>
+                        <div>
+                            <label for="message" class="block text-sm font-medium text-gray-700">Message</label>
+                            <textarea id="message" name="message" rows="6" class="form-control mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="Your Message" required></textarea>
+                        </div>
+                        <div class="text-right">
+                            <button type="submit" class="submit-btn1">Send Message</button>
+                        </div>
+                        <div class="form-status-message hidden text-center font-medium"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer (Assuming partial is similar) -->
+    <%- include('../partials/user/footer') %>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.getElementById("contactForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const submitButton = this.querySelector('button[type="submit"]');
+            const originalButtonText = submitButton.textContent;
+            submitButton.textContent = "Sending...";
+            submitButton.disabled = true;
+
+            const messageContainer = this.querySelector(".form-status-message");
+            messageContainer.classList.remove("hidden");
+
+            const name = this.querySelector('#name').value.trim();
+            const email = this.querySelector('#email').value.trim();
+            const subject = this.querySelector('#subject').value.trim();
+            const message = this.querySelector('#message').value.trim();
+
+            const nameRegex = /^[A-Za-z]+(?: [A-Za-z]+)*$/;
+            if (!name || name.startsWith(' ') || !nameRegex.test(name)) {
+                messageContainer.textContent = "Please enter a valid name (no leading spaces, only alphabetic characters).";
+                messageContainer.classList.add("text-red-500");
+                submitButton.textContent = originalButtonText;
+                submitButton.disabled = false;
+                return;
+            }
+
+            if (!email || !/\S+@\S+\.\S+/.test(email)) {
+                messageContainer.textContent = "Please enter a valid email address.";
+                messageContainer.classList.add("text-red-500");
+                submitButton.textContent = originalButtonText;
+                submitButton.disabled = false;
+                return;
+            }
+
+            if (!subject || /^\s+$/.test(subject)) {
+                messageContainer.textContent = "Subject cannot be empty or spaces only.";
+                messageContainer.classList.add("text-red-500");
+                submitButton.textContent = originalButtonText;
+                submitButton.disabled = false;
+                return;
+            }
+
+            if (!message || /^\s+$/.test(message)) {
+                messageContainer.textContent = "Message cannot be empty or spaces only.";
+                messageContainer.classList.add("text-red-500");
+                submitButton.textContent = originalButtonText;
+                submitButton.disabled = false;
+                return;
+            }
+
+            const formData = new FormData(this);
+
+            fetch(this.action, {
+                method: this.method,
+                body: formData,
+                headers: { Accept: "application/json" },
+            })
+                .then((response) => {
+                    if (response.ok) {
+                        messageContainer.textContent = "Your message has been sent successfully!";
+                        messageContainer.classList.remove("text-red-500");
+                        messageContainer.classList.add("text-green-500");
+                        this.reset();
+                    } else {
+                        messageContainer.textContent = "There was an error sending your message. Please try again.";
+                        messageContainer.classList.add("text-red-500");
+                    }
+                })
+                .catch((error) => {
+                    console.error("Error:", error);
+                    messageContainer.textContent = "An unexpected error occurred. Please try again later.";
+                    messageContainer.classList.add("text-red-500");
+                })
+                .finally(() => {
+                    submitButton.textContent = originalButtonText;
+                    submitButton.disabled = false;
+                });
+        });
+    </script>
+</body>
+</html>

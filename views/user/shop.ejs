@@ -1,0 +1,386 @@
+<%- include("../../views/partials/user/header") %>
+
+<!-- External Styles -->
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+<style>
+    :root {
+        --primary: #1e293b; /* Slate */
+        --secondary: #64748b; /* Lighter slate */
+        --accent: #f59e0b; /* Amber */
+        --text-light: #ffffff;
+        --text-dark: #111827;
+        --bg-light: #f9fafb;
+        --bg-dark: #e5e7eb;
+    }
+
+    body {
+        font-family: 'Inter', sans-serif;
+        background: var(--bg-light);
+        color: var(--text-dark);
+        margin: 0;
+        padding: 0;
+        line-height: 1.6;
+    }
+
+    .product-card {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .product-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-card img {
+        transition: transform 0.3s ease;
+    }
+
+    .product-card:hover img {
+        transform: scale(1.03);
+    }
+
+    .discount-badge {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: var(--accent);
+        color: var(--text-light);
+        padding: 4px 10px;
+        border-radius: 12px;
+        font-size: 11px;
+        font-weight: 600;
+    }
+
+    .filter-btn {
+        transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .filter-btn:hover {
+        transform: translateY(-2px);
+        background: var(--accent);
+    }
+
+    .category-item {
+        transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .category-item:hover {
+        background: var(--secondary);
+        color: var(--text-light);
+    }
+
+    .category-item.active {
+        background: var(--accent);
+        color: var(--text-light);
+    }
+
+    .pagination a {
+        transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .pagination a:hover:not(.active) {
+        background: var(--accent);
+        color: var(--text-light);
+    }
+
+    .pagination a.active {
+        background: var(--accent);
+        color: var(--text-light);
+    }
+
+    .sidebar {
+        position: sticky;
+        top: 20px;
+    }
+    .text-white span{
+        color:black
+    }
+    @media (max-width: 1024px) {
+        .sidebar {
+            position: static;
+        }
+    }
+</style>
+
+<main class="min-h-screen pt-6 pb-12">
+    <!-- Breadcrumb -->
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <nav class="flex items-center text-sm text-gray-500 mb-6">
+            <a href="/" class="text-amber-500 hover:text-amber-600 font-medium">Home</a>
+            <span class="mx-2">/</span>
+            <span class="text-gray-700 font-medium">Shop</span>
+        </nav>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            <!-- Sidebar -->
+            <aside class="lg:col-span-1 sidebar">
+                <!-- Categories -->
+                <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">Categories</h3>
+                    <ul class="space-y-2">
+                        <% category.forEach(category => { %>
+                            <li>
+                                <a href="/filter?category=<%= category._id %>" class="category-item flex items-center justify-between p-2 rounded-md bg-gray-50 hover:bg-slate-500 hover:text-white <%= selectedCategory === category._id.toString() ? 'active text-white' : '' %>">
+                                    <span class="text-sm font-medium"><%= category.name %></span>
+                                    <span class="text-xs font-medium bg-gray-200 px-2 py-1 rounded-full <%= selectedCategory === category._id.toString() ? 'bg-white text-gray-800' : 'text-gray-600' %>"><%= category.productCount %></span>
+                                </a>
+                            </li>
+                        <% }); %>
+                    </ul>
+                </div>
+
+                <!-- Price Range -->
+              <form action="/filter" method="GET">
+    <select name="priceRange">
+        <option value="" <%= priceRange === '' ? 'selected' : '' %>>All Prices</option>
+        <option value="1500" <%= priceRange === '1500' ? 'selected' : '' %>>Up to $1500</option>
+        <option value="2500" <%= priceRange === '2500' ? 'selected' : '' %>>$1501 - $2500</option>
+        <option value="4000" <%= priceRange === '4000' ? 'selected' : '' %>>$2501 - $4000</option>
+        <option value="above4000" <%= priceRange === 'above4000' ? 'selected' : '' %>>Above $4000</option>
+    </select>
+    <input type="hidden" name="category" value="<%= selectedCategory %>">
+    <input type="hidden" name="sort" value="<%= sort %>">
+    <input type="hidden" name="query" value="<%= search %>">
+    <button type="submit">Apply</button>
+</form>
+            </aside>
+
+            <!-- Products Section -->
+            <div class="lg:col-span-3">
+                <!-- Search and Sort -->
+                <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+                    <form id="filterForm" action="/shop" method="GET" class="flex flex-col sm:flex-row gap-4">
+                        <input type="text" name="search" class="flex-1 p-3 rounded-md border" placeholder="Search products..." value="<%= search || '' %>">
+                    
+                        <!-- Preserve category only if not searching -->
+                        <input type="hidden" name="category" id="categoryInput" value="<%= selectedCategory || '' %>">
+                    
+                        <select name="sort" class="p-3 rounded-md border text-gray-600">
+                            <option value="">Sort by...</option>
+                            <option value="price_asc" <%= sort === 'price_asc' ? 'selected' : '' %>>Price: Low to High</option>
+                            <option value="price_desc" <%= sort === 'price_desc' ? 'selected' : '' %>>Price: High to Low</option>
+                            <option value="name_asc" <%= sort === 'name_asc' ? 'selected' : '' %>>Name: A to Z</option>
+                            <option value="name_desc" <%= sort === 'name_desc' ? 'selected' : '' %>>Name: Z to A</option>
+                        </select>
+                    
+                        <button type="submit" class="filter-btn bg-gray-500 text-white px-5 py-3 rounded-md text-sm font-medium">Apply</button>
+                        <a href="/shop" class="filter-btn bg-gray-500 text-white px-5 py-3 rounded-md text-sm font-medium">Clear</a>
+                    </form>
+                    
+                </div>
+
+                <!-- Product Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <% if (products.length > 0) { %>
+                        <% products.forEach(product => { %>
+                            <div class="product-card bg-white rounded-lg shadow-sm overflow-hidden">
+                                <% const discount = Math.round(((product.regularPrice - product.salePrice) / product.regularPrice) * 100); %>
+                                <% if (discount > 0) { %>
+                                    <div class="discount-badge"><%= discount %>% OFF</div>
+                                <% } %>
+                                <a href="/productDetails?id=<%= product._id %>">
+                                    <img src="<%= product.productImage[0] %>" alt="<%= product.productName %>" class="w-full h-48 object-cover">
+                                    <div class="p-4">
+                                        <h3 class="text-base font-semibold text-gray-800 truncate"><%= product.productName %></h3>
+                                        <p class="text-xs text-gray-500 mt-1"><i class="bi bi-tag-fill mr-1"></i><%= product.category.name %></p>
+                                        <div class="flex items-center space-x-2 mt-2">
+                                            <span class="text-base font-medium text-amber-500">₹<%= product.salePrice.toLocaleString('en-IN') %></span>
+                                            <% if (product.regularPrice > product.salePrice) { %>
+                                                <span class="text-xs text-gray-400 line-through">₹<%= product.regularPrice.toLocaleString('en-IN') %></span>
+                                            <% } %>
+                                        </div>
+                                    </div>
+                                </a>
+                                <div class="flex justify-around p-3 bg-gray-50 border-t">
+                                    <a href="#" onclick="addToCart('<%= product._id %>')" class="text-gray-600 hover:text-amber-500"><i class="bi bi-cart text-lg"></i></a>
+                                    <a href="#" onclick="addToWishlist('<%= product._id %>')" class="text-gray-600 hover:text-amber-500"><i class="bi bi-heart text-lg"></i></a>
+                                    <a href="/productDetails?id=<%= product._id %>" class="text-gray-600 hover:text-amber-500"><i class="bi bi-eye text-lg"></i></a>
+                                </div>
+                            </div>
+                        <% }); %>
+                    <% } else { %>
+                        <div class="col-span-full text-center py-12">
+                            <img src="/images/empty-state.png" alt="No products found" class="mx-auto max-w-[200px] mb-4 opacity-80">
+                            <h4 class="text-lg font-semibold text-gray-800">No products found</h4>
+                            <p class="text-gray-500 text-sm mt-1">Try adjusting your search or filter criteria</p>
+                            <a href="/shop" class="inline-block bg-amber-500 text-white px-5 py-2 rounded-md hover:bg-amber-600 mt-4 text-sm font-medium">Reset Filters</a>
+                        </div>
+                    <% } %>
+                </div>
+
+                <!-- Pagination -->
+                <% if (products.length > 0) { %>
+                    <div class="flex justify-center mt-8 space-x-2">
+                        <% if (currentPage > 1) { %>
+                            <a href="/shop?page=<%= currentPage - 1 %>&search=<%= search || '' %>&sort=<%= sort || '' %>&category=<%= selectedCategory || '' %>&price=<%= priceRange || '' %>" class="px-3 py-2 bg-white rounded-md text-gray-600 hover:bg-amber-500 hover:text-white text-sm">«</a>
+                        <% } %>
+                        <% for (let i = 1; i <= totalPages; i++) { %>
+                            <a href="/shop?page=<%= i %>&search=<%= search || '' %>&sort=<%= sort || '' %>&category=<%= selectedCategory || '' %>&price=<%= priceRange || '' %>" class="px-3 py-2 rounded-md text-sm <%= currentPage === i ? 'active' : 'bg-white text-gray-600' %>"><%= i %></a>
+                        <% } %>
+                        <% if (currentPage < totalPages) { %>
+                            <a href="/shop?page=<%= currentPage + 1 %>&search=<%= search || '' %>&sort=<%= sort || '' %>&category=<%= selectedCategory || '' %>&price=<%= priceRange || '' %>" class="px-3 py-2 bg-white rounded-md text-gray-600 hover:bg-amber-500 hover:text-white text-sm">»</a>
+                        <% } %>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    const filterForm = document.getElementById('filterForm');
+    const searchInput = filterForm.querySelector('input[name="search"]');
+    const categoryInput = document.getElementById('categoryInput');
+
+    filterForm.addEventListener('submit', function () {
+        if (searchInput.value.trim()) {
+            categoryInput.value = ''; // Clear category if search is used
+        }
+    });
+    function handleAuthError(title, message) {
+        return Swal.fire({
+            title: title,
+            text: message,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Login",
+            cancelButtonText: "Cancel",
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "/login";
+            }
+        });
+    }
+
+    function addToWishlist(productId) {
+        $.ajax({
+            url: '/addToWishlist',
+            method: "POST",
+            data: { productId: productId },
+            success: (response) => {
+                if (response.status) {
+                    Swal.fire({
+                        title: "Added to Wishlist",
+                        text: "The product has been added to your wishlist.",
+                        icon: "success",
+                        timer: 1500,
+                        showConfirmButton: false
+                    });
+                } else {
+                    Swal.fire({
+                        title: "Already in Wishlist",
+                        text: response.message,
+                        icon: "info",
+                        timer: 1500,
+                        showConfirmButton: false
+                    });
+                }
+            },
+            error: (xhr) => {
+                if (xhr.status === 401) {
+                    handleAuthError(
+                        "Not Logged In",
+                        "You need to log in to add items to your wishlist."
+                    );
+                } else {
+                    Swal.fire({
+                        title: "Error",
+                        text: "There was an error adding the product to your wishlist.",
+                        icon: "error",
+                        timer: 1500,
+                        showConfirmButton: false
+                    });
+                }
+            }
+        });
+    }
+
+    function addToCart(productId) {
+        $.ajax({
+            url: '/addToCart',
+            method: "POST",
+            data: { productId: productId },
+            success: (response) => {
+                if (response.status) {
+                    Swal.fire({
+                        title: "Added to Cart",
+                        text: response.message,
+                        icon: "success",
+                        showCancelButton: true,
+                        confirmButtonText: "View Cart",
+                        cancelButtonText: "Continue Shopping",
+                        timer: 1500
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = "/cart";
+                        } else {
+                            updateCartCount();
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        title: "Error",
+                        text: response.message || "Unable to add to cart",
+                        icon: "error",
+                        timer: 1500,
+                        showConfirmButton: false
+                    });
+                }
+            },
+            error: (xhr) => {
+                if (xhr.status === 401) {
+                    handleAuthError(
+                        "Not Logged In",
+                        "You need to log in to add items to your cart."
+                    );
+                } else {
+                    Swal.fire({
+                        title: "Error",
+                        text: "Stock limit reached or maximum 5 items per user",
+                        icon: "error",
+                        timer: 1500,
+                        showConfirmButton: false
+                    });
+                }
+            }
+        });
+    }
+
+    function updateCartCount() {
+        $.ajax({
+            url: '/getCartCount',
+            method: 'GET',
+            xhrFields: { withCredentials: true },
+            success: (response) => {
+                if (response.status) {
+                    $('#cart-count').text(response.cartCount);
+                }
+            },
+            error: (error) => {
+                console.error("Error fetching cart count:", error);
+            }
+        });
+    }
+
+    $(document).ready(function() {
+        updateCartCount();
+        const urlParams = new URLSearchParams(window.location.search);
+        const activePriceRange = urlParams.get('price');
+        if (activePriceRange) {
+            $('.price-range-options a').removeClass('bg-amber-500 text-white');
+            $(`.price-range-options a[href*="price=${activePriceRange}"]`).addClass('bg-amber-500 text-white');
+        }
+    });
+</script>
+
+<%- include("../../views/partials/user/footer") %>
