@@ -7,28 +7,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>TK Saree Studio</title>
-    <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/mixitup@3/dist/mixitup.min.js"></script>
-    <!-- Core Styles -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/SlickNav/1.0.10/slicknav.min.css" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- jQuery (required for SlickNav) -->
+    <!-- jQuery (load first) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="main.js"></script>
-    <script src="script.js"></script>
-    <!-- SlickNav JS -->
+    <!-- Other styles and scripts -->
+    <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/SlickNav/1.0.10/slicknav.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/SlickNav/1.0.10/jquery.slicknav.min.js"></script>
-    
-    <!-- Your main.js (after SlickNav) -->
-    <script src="/js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mixitup@3/dist/mixitup.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
-
-    <!-- Your Existing Styles -->
     <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css">
     <link rel="stylesheet" href="css/elegant-icons.css" type="text/css">
     <link rel="stylesheet" href="css/magnific-popup.css" type="text/css">
@@ -42,8 +33,8 @@
     <link rel="stylesheet" href="css/ion.rangeSlider.css" />
     <link rel="stylesheet" href="css/ion.rangeSlider.skinFlat.css" />
     <link rel="stylesheet" href="css/main.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="/js/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="/js/script.js"></script>
     <style>
         :root {
             --primary: #1a2526; /* Deep charcoal */
@@ -356,7 +347,7 @@
                     </nav>
                 </div>
                 <div class="col-lg-3 col-md-3">
-                    <div class="header__nav__option">
+                    <!-- <div class="header__nav__option">
                         <% if (locals.user) { %>
                             <div class="dropdown">
                                 <a class="sign-in-link">
@@ -375,12 +366,46 @@
                         <% } else { %>
                             <a href="/login" class="sign-in-link">Log In</a>
                         <% } %>
+                        
                         <a href="/wishlist"><img src="img/icon/heart.png" alt="Wishlist" id="wishlist-count"><span>0</span></a>
                         <a href="/cart"><img src="img/icon/cart.png" alt="Cart" ><span>0</span></a>
                         <a href="/shop#advanced-search-glow" title="Search" data-bs-toggle="tooltip" data-bs-placement="top" class="search-icon">
                             <i class="lnr lnr-magnifier"></i>
                         </a>
-                    </div>
+                    </div> -->
+
+
+                    <div class="header__nav__option">
+                        <% if (locals.user) { %>
+                          <div class="dropdown">
+                            <a class="sign-in-link">
+                              <% if (locals.user.google) { %>
+                                <img src="<%= locals.user.google.profilePic %>" alt="Profile Picture" class="profile-pic">
+                                <%= locals.user.email %>
+                              <% } else { %>
+                                <%= locals.user.name %>
+                              <% } %>
+                            </a>
+                            <div class="dropdown-content">
+                              <a href="/userProfile"><i class="fas fa-user"></i> My Profile</a>
+                              <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                            </div>
+                          </div>
+                        <% } else { %>
+                          <a href="/login" class="sign-in-link">Log In</a>
+                        <% } %>
+                        <a href="/wishlist" class="icon-link" title="Wishlist" data-bs-toggle="tooltip" data-bs-placement="top">
+                          <i class="fas fa-heart"></i>
+                          <span id="wishlist-count"><%= typeof wishlistCount !== 'undefined' ? wishlistCount : 0 %></span>
+                        </a>
+                        <a href="/cart" class="icon-link" title="Cart" data-bs-toggle="tooltip" data-bs-placement="top">
+                          <i class="fas fa-shopping-cart"></i>
+                          <span id="cart-count"><%= typeof cartCount !== 'undefined' ? cartCount : 0 %></span>
+                        </a>
+                        <a href="/shop#advanced-search-glow" title="Search" data-bs-toggle="tooltip" data-bs-placement="top" class="search-icon">
+                          <i class="lnr lnr-magnifier"></i>
+                        </a>
+                      </div>
                 </div>
             </div>
         </div>
@@ -391,53 +416,43 @@
     <!-- Bootstrap JS -->
     <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    
+
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-            tooltipTriggerList.map(function (tooltipTriggerEl) {
-                return new bootstrap.Tooltip(tooltipTriggerEl);
-            });
-        });
+  document.addEventListener('DOMContentLoaded', function () {
+    // Initialize Bootstrap tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+      new bootstrap.Tooltip(tooltipTriggerEl);
+    });
 
+    // Fetch and update cart/wishlist counts
+    function fetchCartWishlistCount() {
+      $.ajax({
+        url: '/getCartWishlistCount', // Updated to match your working endpoint
+        method: 'GET',
+        success: function (data) {
+          $('#cart-count').text(data.cartCount || 0);
+          $('#wishlist-count').text(data.wishlistCount || 0);
+        },
+        error: function (error) {
+          console.error('Error fetching cart/wishlist count:', error);
+          $('#cart-count').text(0);
+          $('#wishlist-count').text(0);
+        }
+      });
+    }
 
-        async function fetchCartWishlistCount() {
-  try {
-    const response = await fetch("/cart-wishlist-count");
-    const data = await response.json();
-    document.getElementById("cart-count").innerText = data.cartCount;
-    document.getElementById("wishlist-count").innerText = data.wishlistCount;
-  } catch (error) {
-    console.error("Error fetching cart/wishlist count:", error);
-  }
-}
-
-document.addEventListener("DOMContentLoaded", () => {
+    // Call the function on page load
     fetchCartWishlistCount();
 
-    const hamburger = document.querySelector(".hamburger");
-    const nav = document.querySelector("nav"); // Target <nav>
+    // Optional: Periodically update counts (e.g., every 30 seconds)
+    setInterval(fetchCartWishlistCount, 30000);
+  });
+</script>
 
-    if (hamburger && nav) {
-        hamburger.addEventListener("click", () => {
-            nav.classList.toggle("active"); // Toggle .active on <nav>
 
-            const lines = hamburger.querySelectorAll(".line");
-            if (nav.classList.contains("active")) {
-                lines[0].style.transform = "rotate(45deg) translate(6px, 6px)";
-                lines[1].style.transform = "scaleX(0) translateX(-10px)";
-                lines[1].style.opacity = "0";
-                lines[2].style.transform = "rotate(-45deg) translate(6px, -6px)";
-                hamburger.style.background = "linear-gradient(135deg, #FBBC04, #f7d794)";
-            } else {
-                lines[0].style.transform = "rotate(0) translate(0, 0)";
-                lines[1].style.transform = "scaleX(1) translateX(0)";
-                lines[1].style.opacity = "1";
-                lines[2].style.transform = "rotate(0) translate(0, 0)";
-                hamburger.style.background = "linear-gradient(135deg, #f6f6f6, #e9e9e9)";
-            }
-        });
-    }
-});
-    </script>
+    
 </body>
 </html>

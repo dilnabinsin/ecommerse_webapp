@@ -287,34 +287,35 @@ body {
                                 <% if (data.length > 0) { %>
                                     <% let total = 0; %>
                                     <% data.forEach(item => { %>
-                                        
-                                        <% const subtotal = item.productDetails[0].salePrice * item.quantity; %>
-                                        <% total += subtotal; %>
-                                        <tr>
-                                            <td class="product-info">
-                                                <img src="<%= item.productDetails[0].productImage[0] %>" alt="<%= item.productDetails[0].productName %>" class="product-image" />
-                                                <div class="product-details">
-                                                    <h6><a href="cart"><%= item.productDetails[0].productName %></a></h6>
-                                                    <p class="text-muted"><%= item.productDetails[0].category %> - <%= item.productDetails[0].brand %></p>
-                                                </div>
-                                            </td>
-                                            <td class="price">₹<%= item.productDetails[0].salePrice.toFixed(2) %></td>
-                                            <td class="quantity">
-                                                <div class="quantity-control">
-                                                    <button class="btn btn-sm decrement-button" onclick="changeQuantity('<%= item.productDetails[0]._id %>', <%= item.quantity %>, -1, <%= item.productDetails[0].salePrice %>, '<%= item.productDetails[0].id %>', <%= item.productDetails[0].quantity %>)">-</button>
-                                                    <input type="text" class="quantity-input" id="cartProductQuantity<%= item.productDetails[0].id %>" value="<%= item.quantity %>" readonly />
-                                                    <button class="btn btn-sm increment-button" onclick="changeQuantity('<%= item.productDetails[0]._id %>', <%= item.quantity %>, 1, <%= item.productDetails[0].salePrice %>, '<%= item.productDetails[0].id %>', <%= item.productDetails[0].quantity %>)">+</button>
-                                                </div>
-                                            </td>
-                                            <td class="subtotal">₹<span id="subTotal<%= item.productDetails[0].id %>"><%= subtotal.toFixed(2) %></span></td>
-                                            <td class="remove">
-                                                <button class="btn btn-remove" onclick="confirmRemove('<%= item.productDetails[0]._id %>')" title="Remove item">
-                                                    <i class="fas fa-trash"></i>
-                                                    <span class="visually-hidden">Remove</span> <!-- Fallback for accessibility -->
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    <% }); %>
+                                        <% if (item.productDetails && item.productDetails.length > 0 && item.productDetails[0].salePrice) { %>
+                                            <% const subtotal = item.productDetails[0].salePrice * item.quantity; %>
+                                            <% total += subtotal; %>
+                                            <tr>
+                                                <td class="product-info">
+                                                    <img src="<%= item.productDetails[0].productImage[0] %>" alt="<%= item.productDetails[0].productName %>" class="product-image" />
+                                                    <div class="product-details">
+                                                        <h6><a href="cart"><%= item.productDetails[0].productName %></a></h6>
+                                                        <p class="text-muted"><%= item.productDetails[0].category %> - <%= item.productDetails[0].brand %></p>
+                                                    </div>
+                                                </td>
+                                                <td class="price">₹<%= item.productDetails[0].salePrice.toFixed(2) %></td>
+                                                <td class="quantity">
+                                                    <div class="quantity-control">
+                                                        <button class="btn btn-sm decrement-button" onclick="changeQuantity('<%= item.productDetails[0]._id %>', <%= item.quantity %>, -1, <%= item.productDetails[0].salePrice %>, '<%= item.productDetails[0].id %>', <%= item.productDetails[0].quantity %>)">-</button>
+                                                        <input type="text" class="quantity-input" id="cartProductQuantity<%= item.productDetails[0].id %>" value="<%= item.quantity %>" readonly />
+                                                        <button class="btn btn-sm increment-button" onclick="changeQuantity('<%= item.productDetails[0]._id %>', <%= item.quantity %>, 1, <%= item.productDetails[0].salePrice %>, '<%= item.productDetails[0].id %>', <%= item.productDetails[0].quantity %>)">+</button>
+                                                    </div>
+                                                </td>
+                                                <td class="subtotal">₹<span id="subTotal<%= item.productDetails[0].id %>"><%= subtotal.toFixed(2) %></span></td>
+                                                <td class="remove">
+                                                    <button class="btn btn-remove" onclick="confirmRemove('<%= item.productDetails[0]._id %>')" title="Remove item">
+                                                        <i class="fas fa-trash"></i>
+                                                        <span class="visually-hidden">Remove</span>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        <% } %>
+                                    <% }); %> <!-- Add this line to close the forEach loop -->
                                 <% } else { %>
                                     <tr>
                                         <td colspan="5" class="text-center">

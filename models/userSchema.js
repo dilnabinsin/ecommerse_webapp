@@ -13,12 +13,7 @@ const userSchema = new Schema({
     type:String,
     required:false
 },
-profileImage: { type: String },
-   email: {
-       type : String,
-       required:true,
-       unique: true,
-   },
+
    phone : {
        type : String,
        required: false,
@@ -44,16 +39,28 @@ profileImage: { type: String },
        default:false
    },
    cart: {
-       type : Array
-   },
+    type: [{
+      productId: {
+        type: Schema.Types.ObjectId,
+        ref: "Product",
+        required: true
+      },
+      quantity: {
+        type: Number,
+        required: true,
+        min: 1
+      }
+    }],
+    default: [] // Ensure cart is always an array
+  },
    wallet:{
        type:Number,
        default:0,
    },
-   wishlist:[{
-       type:Schema.Types.ObjectId,
-       ref:"Wishlist"
-   }],
+   wishlist: {
+    type: [{ type: Schema.Types.ObjectId, ref: "Product" }],
+    default: [] // Ensure wishlist is always an array
+  },
 
    orderHistory:[{
        type:Schema.Types.ObjectId,

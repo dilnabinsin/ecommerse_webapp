@@ -42,7 +42,7 @@ passport.use(new GoogleStrategy({
 // ✅ Serialize user
 passport.serializeUser((user, done) => {
     console.log("✅ Serializing User:", user.id);
-    done(null, user.id);
+    done(null, user.id.toString());
 });
 
 // ✅ Deserialize user

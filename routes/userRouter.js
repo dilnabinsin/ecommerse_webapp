@@ -14,7 +14,7 @@ const staticController = require("../controller/user/staticController")
 const { userAuth,addCartWishlist,checkUserAuthWish,ajaxAuth,validateCancelRequest } = require('../middleware/auth');
 const {resetPasswordMiddleware,blockLoggedInUsers, checkBlockedUser,checkLoggedIn,forgotPassLogout} = require("../middleware/profileAuth")
 const multer = require("multer")
-
+const User = require("../models/userSchema");
 
 const path = require('path');
 const { storage, fileFilter,checkFileType } =require("../helpers/multer")
@@ -33,7 +33,7 @@ router.post("/signup",userController.signup)
  router.get('/verify-otp', userController.loadVerifyOtp);
  router.post('/verify-otp', userController.verifyOtp);
  router.post('/resend-otp',userController.resendOtp)
-
+router.get('/getCartWishlistCount',userAuth,cartController.getCartWishlistCount)
 
  router.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 //  router.get('/auth/google/callback', passport.authenticate('google', 
@@ -51,6 +51,39 @@ router.get('/auth/google/callback', passport.authenticate('google',
         res.redirect('/signup');
     }
 });
+
+
+// router.get('/auth/google/callback', passport.authenticate('google', {
+//     failureRedirect: '/signup'
+// }), async (req, res) => {
+//     try {
+//         const profile = req.user;
+
+//         console.log("✅ Google Profile:", profile);
+
+//         if (!profile.emails || !profile.emails[0]) {
+//             console.error("❌ Google profile missing email");
+//             return res.redirect('/signup');
+//         }
+
+//         let user = await User.findOne({ email: profile.emails[0].value });
+
+//         if (!user) {
+//             user = await User.create({
+//                 name: profile.displayName,
+//                 email: profile.emails[0].value,
+//                 googleId: profile.id,
+//                 cart: []
+//             });
+//         }
+
+//         req.session.user = user._id;
+//         res.redirect('/');
+//     } catch (error) {
+//         console.error("❌ Google login error:", error);
+//         res.redirect('/signup');
+//     }
+// });
 
  router.get('/login',userController.loadLogin)
  router.post("/login",userController.login)
@@ -94,7 +127,7 @@ router.get("/shop",userController.loadShoppingPage);
 router.get("/filter",userController.filterProduct);
 router.get("/productDetails",productController.productDetails);
 
-//router.get('/search', userController.searchProducts);
+router.get('/search', userController.searchProducts);
 // wishlist management
 
 
@@ -108,7 +141,7 @@ router.get("/cart", userAuth, cartController.getCartPage);
 router.post("/addToCart", ajaxAuth, cartController.addToCart);
 router.post("/changeQuantity", userAuth, cartController.changeQuantity);
 router.get("/deleteItem", userAuth, cartController.deleteProduct);
-router.get('/cart-wishlist-count', userAuth,cartController.getCartWishlistCount);
+
 
 router.get("/checkout",userAuth,checkoutController.loadCheckoutPage)
 router.get("/addAddressCheckout",userAuth,checkoutController.addAddressCheckout)

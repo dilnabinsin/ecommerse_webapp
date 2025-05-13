@@ -551,7 +551,7 @@ const updateProfile123 = async (req, res) => {
   
 
 //........................................................................................
-const loadAddressPage = async (req,res,next) => {
+const loadAddressPage = async (req,res) => {
     try {
         const userId = req.session.user;
         const userData = await User.findById(userId);
@@ -571,10 +571,10 @@ const loadAddressPage = async (req,res,next) => {
 
         console.error("Error in Address loading",error);
         res.redirect("/pageNotFound");
-        next(error)
+        // next(error)
     }
 }
-const addAddress = async (req, res,next) => {
+const addAddress = async (req, res) => {
     try {
         const user = req.session.user;
         if (!user) {
@@ -597,7 +597,7 @@ const addAddress = async (req, res,next) => {
     } catch (error) {
         console.error("Error fetching user data:", error);
         res.redirect("/pageNotFound"); // In case of an error, redirect
-        next(error)
+        // next(error)
     }
 };
 
@@ -679,7 +679,7 @@ const editAddress = async (req,res) => {
 }
 
 
-const postEditAddress = async (req,res,next) => {
+const postEditAddress = async (req,res) => {
     try {
 
         const data = req.body;
@@ -717,11 +717,11 @@ const postEditAddress = async (req,res,next) => {
 
         console.error("Error in editing address",error)
         res.redirect("/pageNotFound")
-        next(error)
+        // next(error)
     }
 }
 
-const deleteAddress = async (req,res,next) => {
+const deleteAddress = async (req,res) => {
     try {
         
         const addressId = req.query.id;
@@ -749,35 +749,10 @@ const deleteAddress = async (req,res,next) => {
 
         console.error("Error in deleting in address",error)
         res.redirect("/pageNotFound")
-        next(error)
+        // next(error)
     }
 }
 
-const updateProfileworking1 = async (req, res) => {
-    try {
-        const userId = req.session.userId;
-        const { name, username, phone } = req.body;
-        
-        const updates = { name, username, phone };
-        
-        if (req.file) {
-            updates.profileImage = '/public/uploads/temp' + req.file.filename;
-        }
-
-        await User.findByIdAndUpdate(userId, updates);
-        
-        res.json({ 
-            success: true,
-            message: 'Profile updated successfully'
-        });
-    } catch (error) {
-        console.error('Error updating profile:', error);
-        res.status(500).json({ 
-            success: false,
-            message: 'Error updating profile'
-        });
-    }
-};
 
 const removeProfileImage = async (req, res) => {
     try {
@@ -847,59 +822,7 @@ const updateProfile = async (req, res) => {
     }
 };
 
-const updateProfile1 = async (req, res) => {
-    try {
-      const userId = req.session.userId;
-      const { name, username, phone } = req.body;
-      
-      const updates = {
-        name,
-        username,
-        phone,
-        updatedAt: new Date()
-      };
-  
-      if (req.file) {
-        // Delete old image if exists
-        const user = await User.findById(userId);
-        if (user.profileImage) {
-          const oldImagePath = path.join(__dirname, '../public', user.profileImage);
-          if (fs.existsSync(oldImagePath)) {
-            fs.unlinkSync(oldImagePath);
-          }
-        }
-        
-        // Store relative path in database
-        updates.profileImage = '/public/uploads/temp/' + req.file.filename;
-      }
-  
-      // Update user in database
-      const updatedUser = await User.findByIdAndUpdate(
-        userId,
-        updates,
-        { new: true, runValidators: true }
-      ).select('-password');
-  
-      // Return success response with full image URL
-      res.json({
-        success: true,
-        user: {
-          ...updatedUser.toObject(),
-          profileImage: updatedUser.profileImage ? 
-            `${req.protocol}://${req.get('host')}${updatedUser.profileImage}` : 
-            null
-        },
-        message: 'Profile updated successfully'
-      });
-  
-    } catch (error) {
-      console.error('Profile update error:', error);
-      res.status(500).json({
-        success: false,
-        message: error.message || 'Error updating profile'
-      });
-    }
-  };
+
 module.exports={getForgotPassPage,
    
     verifyForgotPassOtp,

@@ -94,31 +94,31 @@ app.use(async (req, res, next) => {
 //     next();
 // });
 // **** ERROR HANDLING MIDDLEWARE ****
-app.use((err,req,res,next) => {
+// app.use((err,req,res,next) => {
 
-    console.log('hello')
-    const errStatus = err.statusCode || 500 ;
-    console.log()
-    console.log(err.message)
+//     console.log('hello')
+//     const errStatus = err.statusCode || 500 ;
+//     console.log()
+//     console.log(err.message)
 
-    console.log(err.stack);
+//     console.log(err.stack);
 
-    if(errStatus == 404){
-        if(req.session.adminId){
-            res.status(errStatus).render('page-404',{link:'/admin'});
-        }else{
-            res.status(errStatus).render('page-404',{link:'/'});
-        }
-    }else{
+//     if(errStatus == 404){
+//         if(req.session.adminId){
+//             res.status(errStatus).render('page-404',{link:'/admin'});
+//         }else{
+//             res.status(errStatus).render('page-404',{link:'/'});
+//         }
+//     }else{
 
-        if(req.session.adminId){
-            res.status(errStatus).render('error-500',{errorCode:errStatus, link:'/admin'});
-        }else{
-            res.status(errStatus).render('error-500',{errorCode:errStatus, link:'/'});
-        }
-    }
+//         if(req.session.adminId){
+//             res.status(errStatus).render('error-500',{errorCode:errStatus, link:'/admin'});
+//         }else{
+//             res.status(errStatus).render('error-500',{errorCode:errStatus, link:'/'});
+//         }
+//     }
  
-})
+// })
 
 
 

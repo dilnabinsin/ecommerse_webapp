@@ -156,6 +156,7 @@
                 <!-- Search and Sort -->
                 <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
                     <form id="filterForm" action="/shop" method="GET" class="flex flex-col sm:flex-row gap-4">
+                        <input type="hidden" name="category" value="<%= selectedCategory %>">
                         <input type="text" name="search" class="flex-1 p-3 rounded-md border" placeholder="Search products..." value="<%= search || '' %>">
                     
                         <!-- Preserve category only if not searching -->
