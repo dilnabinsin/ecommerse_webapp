@@ -1,458 +1,537 @@
 <!DOCTYPE html>
-<html lang="zxx">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sign Up</title>
-    <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css" />
-    <link rel="stylesheet" href="/css/nice-select.css" type="text/css" />
-    <link rel="stylesheet" href="/css/owl.carousel.min.css" type="text/css" />
-    <link rel="stylesheet" href="/css/magnific-popup.css" type="text/css" />
-    <link rel="stylesheet" href="/css/elegant-icons.css" type="text/css" />
-    <link rel="stylesheet" href="/css/slicknav.min.css" type="text/css" />
-    <link rel="stylesheet" href="/css/style.css" type="text/css" />
-    <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css">
-    <meta name="description" content="Male_Fashion Template" />
-    <meta name="keywords" content="Male_Fashion, unica, creative, html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>TK Saree Studio</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800;900&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css" />
-    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css" />
-    <link rel="stylesheet" href="css/magnific-popup.css" type="text/css" />
-    <link rel="stylesheet" href="css/nice-select.css" type="text/css" />
-    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css" />
-    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css" />
-    <link rel="stylesheet" href="css/style.css" type="text/css" />
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-      rel="stylesheet"
-    />
-    <style>
-      .header__nav__option .sign-in-link {
-        font-size: 16px;
-        color: #333;
-        margin-right: 15px;
-        text-decoration: none;
-        font-weight: 600;
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="description" content="TK Saree Studio Sign Up" />
+  <meta name="keywords" content="TK Saree Studio, signup, ecommerce" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>TK Saree Studio | Sign Up</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.linearicons.com/free/1.0.0/icon-font.min.css" />
+  <link rel="stylesheet" href="/css/style.css" type="text/css" />
+
+  <style>
+    body, html {
+      height: 100%;
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .header {
+      background: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 15px 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .header__logo img {
+      max-height: 50px;
+    }
+
+    .header__menu ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+    }
+
+    .header__menu li {
+      margin: 0 20px;
+    }
+
+    .header__menu a {
+      color: #333;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+
+    .header__menu a:hover, .header__menu .active a {
+      color: #ff7f50;
+    }
+
+    .header__nav__option {
+      display: flex;
+      align-items: center;
+    }
+
+    .header__nav__option .icon-link {
+      position: relative;
+      color: #333;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      margin: 0 15px;
+      transition: color 0.3s;
+    }
+
+    .header__nav__option .icon-link:hover {
+      color: #ff7f50;
+    }
+
+    .header__nav__option .icon-link i {
+      font-size: 20px;
+    }
+
+    .header__nav__option .icon-link span {
+      background: #ff7f50;
+      color: #fff;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      position: absolute;
+      top: -8px;
+      right: -8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+    .header__nav__option .search-icon {
+      color: #333;
+      font-size: 20px;
+      transition: color 0.3s;
+    }
+
+    .header__nav__option .search-icon:hover {
+      color: #ff7f50;
+    }
+
+    .main-container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .signup-card {
+      background: #fff;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      max-width: 900px;
+      width: 100%;
+      overflow: hidden;
+      display: flex;
+    }
+
+    .signup-form {
+      padding: 40px;
+      flex: 1;
+    }
+
+    .signup-form h2 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      font-size: 0.9rem;
+      color: #555;
+      margin-bottom: 5px;
+      display: block;
+    }
+
+    .form-control {
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      padding: 10px;
+      font-size: 0.9rem;
+      transition: border-color 0.3s;
+    }
+
+    .form-control:focus {
+      border-color: #ff7f50;
+      box-shadow: 0 0 5px rgba(255, 127, 80, 0.3);
+      outline: none;
+    }
+
+    .error-message {
+      color: #dc3545;
+      font-size: 0.8rem;
+      margin-top: 5px;
+      display: none;
+    }
+
+    .btn-primary {
+      background: #ff7f50;
+      border: none;
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      width: 100%;
+      transition: background 0.3s;
+    }
+
+    .btn-primary:hover {
+      background: #e66b3f;
+    }
+
+    .social-login {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .social-login p {
+      font-size: 0.9rem;
+      color: #555;
+      margin-bottom: 10px;
+    }
+
+    .google-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 1px solid #ddd;
+      transition: background 0.3s;
+    }
+
+    .google-btn img {
+      width: 24px;
+      height: 24px;
+    }
+
+    .google-btn:hover {
+      background: #f8f9fa;
+    }
+
+    .signin-link {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .signin-link a {
+      color: #ff7f50;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .signin-link a:hover {
+      text-decoration: underline;
+    }
+
+    .signup-image {
+      flex: 1;
+      background: url('/img/signup1.jpg') center/cover no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .signup-image h3 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    @media (max-width: 768px) {
+      .signup-card {
+        flex-direction: column;
       }
-      .header__nav__option .sign-in-link:hover {
-        color: #ff7f50;
-      }
-      .signup-section {
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
-      }
-      .signup-form,
-      .signup-image {
-        flex: 1;
-        padding: 10px;
+      .signup-form, .signup-image {
+        flex: none;
+        width: 100%;
       }
       .signup-form {
-        max-width: 50%;
+        padding: 20px;
       }
       .signup-image {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        max-width: 40%;
+        min-height: 200px;
       }
-      .signup-image img {
-        max-width: 100%;
-        height: auto;
-      }
-      .social-btns {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-top: 10px;
-      }
-      .social-btns button {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.5rem;
-      }
-      .spacer {
-        height: 30px; /* Adjust the height as needed */
-      }
-      .form-group label {
-        font-size: 0.875rem; /* Decrease label size */
-      }
-      .form-control {
-        font-size: 0.875rem; /* Decrease input text size */
-        padding: 0.5rem; /* Decrease padding */
-      }
-      .btn-primary {
-        padding: 0.5rem 1rem; /* Decrease button padding */
-        font-size: 0.875rem; /* Decrease button text size */
-      }
-      .card-title {
-        font-size: 1.25rem; /* Decrease card title size */
-      }
-      .signup-image .sign-in-link {
-        color: #333;
-        text-decoration: none;
-      }
-      .signup-image .sign-in-link:hover {
-        color: #ff7f50;
-      }
-      .error-message{
-        color: red;
-        font-size :0.75rem;
-        display: none;
+    }
+  </style>
+</head>
 
-      }
-    </style>
-  </head>
-  <body>
-
-
-    <div class="header-container1">
-      <header class="header">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-3">
-                    <div class="header__logo">
-                        <a href="#"><img src="img/logo-head.png" alt=""></a>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-md-6">
-                    <nav class="header__menu mobile-menu">
-                        <ul>
-                            <li class="active"><a href="/">Home</a></li>
-                            <li><a href="/shop">Shop</a></li>
-                            
-                        </ul>
-                    </nav>
-                </div>
-    <div class="header__nav__option">
-       
-           
-        <a href="/wishlist"><img src="img/icon/heart.png" alt=""></a>
-        <a href="/cart"><img src="img/icon/cart.png" alt=""> <span>0</span></a>
-        <a href="/shop#advanced-search-glow">
-          <button data-bs-toggle="tooltip" data-bs-placement="top" title="Search" class="search ">
-            <span class="lnr lnr-magnifier" id="search"></span>
-        </button>
-            
-        </a>
-    </div>
-    
-    </div>
-
-
-    <div class="container mt-5 mb-1">
-      <div class="row justify-content-center">
-        <div class="col-md-8">
-          <div class="card">
-            <div class="card-body signup-section">
-              <div class="signup-form">
-                <h3 class="card-title text-center">Sign Up</h3>
-
-                <form id="signForm" method="post" action="/signup">
-                  <div class="form-group">
-                    <label for="name">Full Name</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="name" name="name"
-                      placeholder="Enter Name"
-                    />
-                    <div id="error1" class="error-message"></div>
-                  </div>
-                  <div class="form-group">
-                    <label for="email">Email address</label>
-                    <input
-                      type="email"
-                      class="form-control"
-                      id="email" name="email"
-                      placeholder="Enter email" value="<%= typeof email !== 'undefined' ? email : '' %>"
-                    />
-                    <div id="error2" class="error-message"></div>
-                  </div>
-                  <div class="form-group">
-                    <label for="phone">Phone Number</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="phone" name="phone"
-                      placeholder="Enter phone number"
-                    />
-                    <div id="error3" class="error-message"></div>
-                  </div>
-                  <div class="form-group">
-                    <label for="password">Password</label>
-                    <input
-                      type="password"
-                      class="form-control"
-                      id="password" name="password"
-                      placeholder="Password"
-                    />
-                    <div id="error4" class="error-message"></div>
-                  </div>
-                  <div class="form-group">
-                    <label for="confirm-password">Confirm Password</label>
-                    <input
-                      type="password"
-                      class="form-control"
-                      id="confirm-password" name="cPassword"
-                      placeholder="Confirm Password"
-                    />
-                    <div id="error5" class="error-message"></div>
-                  </div>
-                  <%if(locals.message && message.length>0){%>
-                    <div class="alert alert-danger text-center">
-                      <%=message%>
-                    </div>
-                    <%}%>
-                  <div
-                    class="d-flex justify-content-between align-items-center"
-                  >
-                    <button type="submit" class="btn btn-primary">
-                      Sign Up
-                    </button>
-                    <div class="mt-2px">
-                      <p>or sign up with</p>
-                    </div>
-                    <div class="social-btns">
-                      <a href="/auth/google" class="btn btn-outline-danger">
-                        <img
-                          src="img/googlesignup.png"
-                          alt="Google Logo"
-                          style="width: 24px; height: 24px"
-                        />
-                      </a>
-                    </div>
-                  </div>
-                </form>
-              </div>
-              <div class="signup-image">
-                <a href="/">
-                  <img src="img/signup1.jpg" alt="Shopping Site" />
-                </a>
-                <div class="text-center mt-2">
-                  <a href="/login" class="sign-in-link"
-                    >Already registered? Log in</a
-                  >
-                </div>
-              </div>
-            </div>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-3 col-md-3">
+          <div class="header__logo">
+            <a href="/"><img src="/img/logo-head.png" alt="TK Saree Studio"></a>
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <nav class="header__menu mobile-menu">
+            <ul>
+              <li class="<%= page === 'home' ? 'active' : '' %>"><a href="/">Home</a></li>
+              <li class="<%= page === 'shop' ? 'active' : '' %>"><a href="/shop">Shop</a></li>
+              <li class="<%= page === 'about' ? 'active' : '' %>"><a href="/about">About</a></li>
+              <li class="<%= page === 'contact' ? 'active' : '' %>"><a href="/contact">Contact</a></li>
+            </ul>
+          </nav>
+        </div>
+        <div class="col-lg-3 col-md-3 text-end">
+          <div class="header__nav__option">
+            <a href="/wishlist" class="icon-link" title="Wishlist" data-bs-toggle="tooltip" data-bs-placement="top">
+              <i class="fas fa-heart"></i>
+              <span id="wishlist-count"><%= typeof wishlistCount !== 'undefined' ? wishlistCount : 0 %></span>
+            </a>
+            <a href="/cart" class="icon-link" title="Cart" data-bs-toggle="tooltip" data-bs-placement="top">
+              <i class="fas fa-shopping-cart"></i>
+              <span id="cart-count"><%= typeof cartCount !== 'undefined' ? cartCount : 0 %></span>
+            </a>
+            <a href="/shop#advanced-search-glow" class="search-icon" title="Search" data-bs-toggle="tooltip" data-bs-placement="top">
+              <span class="lnr lnr-magnifier"></span>
+            </a>
           </div>
         </div>
       </div>
     </div>
-    <div class="spacer"></div>
+  </header>
 
-  
+  <div class="main-container">
+    <div class="signup-card">
+      <div class="signup-form">
+        <h2>Sign Up for TK Saree Studio</h2>
+        <form id="signForm" method="post" action="/signup">
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="name"
+              name="name"
+              placeholder="Enter your name"
+            />
+            <div id="error1" class="error-message"></div>
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              name="email"
+              placeholder="Enter your email"
+              value="<%= typeof email !== 'undefined' ? email : '' %>"
+            />
+            <div id="error2" class="error-message"></div>
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input
+              type="text"
+              class="form-control"
+              id="phone"
+              name="phone"
+              placeholder="Enter your phone number"
+            />
+            <div id="error3" class="error-message"></div>
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              class="form-control"
+              id="password"
+              name="password"
+              placeholder="Enter your password"
+            />
+            <div id="error4" class="error-message"></div>
+          </div>
+          <div class="form-group">
+            <label for="confirm-password">Confirm Password</label>
+            <input
+              type="password"
+              class="form-control"
+              id="confirm-password"
+              name="cPassword"
+              placeholder="Confirm your password"
+            />
+            <div id="error5" class="error-message"></div>
+          </div>
+          <% if (locals.message && message.length > 0) { %>
+            <div class="alert alert-danger text-center" role="alert">
+              <%= message %>
+            </div>
+          <% } %>
+          <button type="submit" class="btn btn-primary">Sign Up</button>
+          <div class="social-login">
+            <p>Or sign up with</p>
+            <a href="/auth/google" class="google-btn">
+              <img src="/img/googlesignup.png" alt="Google Logo" />
+            </a>
+          </div>
+        </form>
+        <div class="signin-link">
+          <p>Already registered? <a href="/login">Log In</a></p>
+        </div>
+      </div>
+      <div class="signup-image">
+        <h3>Join TK Saree Studio</h3>
+      </div>
+    </div>
+  </div>
+  <%- include("../../views/partials/user/footer") %>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Form validation
+    const nameid = document.getElementById('name');
+    const emailid = document.getElementById('email');
+    const phoneid = document.getElementById('phone');
+    const passid = document.getElementById('password');
+    const cpassid = document.getElementById('confirm-password');
+    const error1 = document.getElementById('error1');
+    const error2 = document.getElementById('error2');
+    const error3 = document.getElementById('error3');
+    const error4 = document.getElementById('error4');
+    const error5 = document.getElementById('error5');
+    const signForm = document.getElementById('signForm');
 
-     <script>
-      const nameid = document.getElementById('name');
-      const emailid = document.getElementById('email');
-      const phoneid = document.getElementById('phone');
-      const passid = document.getElementById('password');
-      const cpassid = document.getElementById('confirm-password');
-
-      const error1 = document.getElementById('error1');
-      const error2 = document.getElementById('error2');
-      const error3 = document.getElementById('error3');
-      const error4 = document.getElementById('error4');
-      const error5 = document.getElementById('error5');
-
-      const signForm = document.getElementById('signForm');
-
-      function nameValidateChecking(){
-    const nameval = nameid.value;
-    const namepattern = /^[a-zA-Z\s]{2,30}$/;
-
-    if(nameval.trim() == ''){
+    function nameValidateChecking() {
+      const nameval = nameid.value.trim();
+      const namepattern = /^[a-zA-Z\s]{2,30}$/;
+      if (nameval === '') {
         error1.style.display = 'block';
-        error1.innerHTML = 'Please Enter a Valid Name';
+        error1.textContent = 'Please enter a valid name';
         return false;
-    } else if(!namepattern.test(nameval)){
+      } else if (!namepattern.test(nameval)) {
         error1.style.display = 'block';
-        error1.innerHTML = 'Name can only contain alphabets and spaces';
+        error1.textContent = 'Name can only contain alphabets and spaces';
         return false;
-    } else {
-        error1.style.display = 'none';
-        error1.innerHTML = '';
-        return true;
+      }
+      error1.style.display = 'none';
+      error1.textContent = '';
+      return true;
     }
-}
 
+    function emailValidateChecking() {
+      const emailval = emailid.value.trim();
+      const emailpattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+      if (emailval === '') {
+        error2.style.display = 'block';
+        error2.textContent = 'Email is required';
+        return false;
+      }
+      if (!emailpattern.test(emailval)) {
+        error2.style.display = 'block';
+        error2.textContent = 'Please enter a valid email address';
+        return false;
+      }
+      if (!emailval.endsWith('@gmail.com')) {
+        error2.style.display = 'block';
+        error2.textContent = 'Only Gmail addresses are allowed';
+        return false;
+      }
+      error2.style.display = 'none';
+      error2.textContent = '';
+      return true;
+    }
 
-      // function emailValidateChecking(e){
-      //     const emailval = emailid.value;
-      //     const emailpattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    function phoneValidateChecking() {
+      const phoneval = phoneid.value.trim();
+      const phonepattern = /^[0-9]{10}$/;
+      if (phoneval === '') {
+        error3.style.display = 'block';
+        error3.textContent = 'Please enter a valid phone number';
+        return false;
+      } else if (!phonepattern.test(phoneval)) {
+        error3.style.display = 'block';
+        error3.textContent = 'Phone number must be 10 digits';
+        return false;
+      }
+      error3.style.display = 'none';
+      error3.textContent = '';
+      return true;
+    }
 
-      //     if(!emailpattern.test(emailval)){
-      //         error2.style.display = 'block';
-      //         error2.innerHTML = 'Please Enter a Valid Email';
-      //     } else {
-      //         error2.style.display = 'none';
-      //         error2.innerHTML = '';
-      //     }
-      // }
-      function emailValidateChecking() {
-  const emailval = emailid.value.trim();
-  const emailpattern = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+    function passValidateChecking() {
+      const passval = passid.value.trim();
+      const cpassval = cpassid.value.trim();
+      const alpha = /[a-zA-Z]/;
+      const digit = /\d/;
+      let isValid = true;
 
-  if (emailval === '') {
-    error2.style.display = 'block';
-    error2.innerHTML = 'Email is required';
-    return false;
-  }
-
-  if (!emailpattern.test(emailval)) {
-    error2.style.display = 'block';
-    error2.innerHTML = 'Please enter a valid email address';
-    return false;
-  }
-  if (!emailval.endsWith('@gmail.com')) {
-  error2.style.display = 'block';
-  error2.innerHTML = 'Only Gmail addresses are allowed';
-  return false;
-}
-  error2.style.display = 'none';
-  error2.innerHTML = '';
-  return true;
-}
-
-      function phoneValidateChecking(e){
-          const phoneval = phoneid.value;
-          const phonepattern = /^[0-9]{10}$/;
-
-          if(phoneval.trim() == ''){
-              error3.style.display = 'block';
-              error3.innerHTML = 'Please Enter a Valid Phone Number';
-              return false;
-          } else if(!phonepattern.test(phoneval)){
-              error3.style.display = 'block';
-              error3.innerHTML = 'Please Enter a Valid Phone Number';
-              return false;
-          } else {
-              error3.style.display = 'none';
-              error3.innerHTML = '';
-              return true;
-          }
+      if (passval === '') {
+        error4.style.display = 'block';
+        error4.textContent = 'Please enter a valid password';
+        isValid = false;
+      } else if (passval.length < 8) {
+        error4.style.display = 'block';
+        error4.textContent = 'Password must be at least 8 characters long';
+        isValid = false;
+      } else if (!alpha.test(passval) || !digit.test(passval)) {
+        error4.style.display = 'block';
+        error4.textContent = 'Password must contain at least one alphabet and one digit';
+        isValid = false;
+      } else {
+        error4.style.display = 'none';
+        error4.textContent = '';
       }
 
-      function passValidateChecking(){
-    const passval = passid.value;
-    const cpassval = cpassid.value;
-    const alpha = /[a-zA-Z]/;
-    const digit = /\d/;
-
-    let isValid = true;
-
-    if(passval.trim() == ''){
-        error4.style.display = 'block';
-        error4.innerHTML = 'Please Enter a Valid Password';
-        isValid = false;
-    } else if(passval.length < 8){
-        error4.style.display = 'block';
-        error4.innerHTML = 'Password must be at least 8 characters long';
-        isValid = false;
-    } else if(!alpha.test(passval) || !digit.test(passval)){
-        error4.style.display = 'block';
-        error4.innerHTML = 'Password must contain at least one alphabet and one digit';
-        isValid = false;
-    } else {
-        error4.style.display = 'none';
-        error4.innerHTML = '';
-    }
-
-    if(passval !== cpassval){
+      if (passval !== cpassval) {
         error5.style.display = 'block';
-        error5.innerHTML = 'Passwords do not match';
+        error5.textContent = 'Passwords do not match';
         isValid = false;
-    } else {
+      } else {
         error5.style.display = 'none';
-        error5.innerHTML = '';
+        error5.textContent = '';
+      }
+
+      return isValid;
     }
 
-    return isValid;
-}
+    signForm.addEventListener('submit', function (e) {
+      const isNameValid = nameValidateChecking();
+      const isEmailValid = emailValidateChecking();
+      const isPhoneValid = phoneValidateChecking();
+      const isPassValid = passValidateChecking();
 
-signForm.addEventListener('submit', function (e) {
-  const isNameValid = nameValidateChecking();
-  const isEmailValid = emailValidateChecking();
-  const isPhoneValid = phoneValidateChecking();
-  const isPassValid = passValidateChecking();
+      if (!(isNameValid && isEmailValid && isPhoneValid && isPassValid)) {
+        e.preventDefault();
+      }
+    });
 
-  if (!(isNameValid && isEmailValid && isPhoneValid && isPassValid)) {
-    e.preventDefault(); // ❗ stop form submission
-    return false;
-  }
+    // Fetch cart and wishlist counts
+    document.addEventListener('DOMContentLoaded', function () {
+      const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+      tooltipTriggerList.forEach(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 
-  // If you want to show OTP section instead of submitting
-  // e.preventDefault();
-  // document.getElementById("otpSection").style.display = "block";
-});
+      function fetchCartWishlistCount() {
+        $.ajax({
+          url: '/getCartWishlistCount',
+          method: 'GET',
+          success: function (data) {
+            $('#cart-count').text(data.cartCount || 0);
+            $('#wishlist-count').text(data.wishlistCount || 0);
+          },
+          error: function (error) {
+            console.error('Error fetching cart/wishlist count:', error);
+            $('#cart-count').text(0);
+            $('#wishlist-count').text(0);
+          }
+        });
+      }
 
-
-
-      // document.addEventListener("DOMContentLoaded", function(){
-      //     signForm.addEventListener('submit', function(e){
-      //         nameValidateChecking();
-      //         emailValidateChecking();
-      //         phoneValidateChecking();
-      //         passValidateChecking();
-
-      //         if(!nameid ||
-      //             !emailid ||
-      //             !phoneid ||
-      //             !passid ||
-      //             !error1 ||
-      //             !error2 ||
-      //             !error3 ||
-      //             !error4 ||
-      //             !error5 ||
-      //             !signForm){
-      //                 console.error("One or more elements not found");
-      //             }
-      //         if(
-      //             error1.innerHTML ||
-      //             error2.innerHTML ||
-      //             error3.innerHTML ||
-      //             error4.innerHTML ||
-      //             error5.innerHTML
-      //         ){
-      //             e.preventDefault();
-      //         }
-      //     });
-      // });
+      fetchCartWishlistCount();
+    });
   </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-          
-
-         
-
-          
-
-
-  </body>
+</body>
 </html>
-

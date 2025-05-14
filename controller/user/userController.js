@@ -163,7 +163,7 @@ const loadHomePage = async (req, res) => {
     }
   };
 // .......................................
-const loadSignup= async(req,res)=>{
+const loadSignup1= async(req,res)=>{
 
 try{
     
@@ -176,6 +176,39 @@ catch(error){
 }
 
 }
+
+
+
+
+
+const loadSignup = async (req, res) => {
+  try {
+    const userId = req.session.user;
+
+    if (userId) {
+      // Redirect authenticated users to home
+      return res.redirect('/');
+    }
+
+    // For unauthenticated users, render signup page with defaults
+    const cartCount = 0; // Default for unauthenticated users
+    const wishlistCount = 0; // Default for unauthenticated users
+
+    res.render('signup', {
+      page: 'signup', // Added to fix page is not defined
+      user: null, // No user for unauthenticated
+      cartCount,
+      wishlistCount,
+      email: req.query.email || '', // Form persistence
+      message: req.query.error || '' // Error message
+    });
+  } catch (error) {
+    console.error('Error loading signup page:', error);
+    res.redirect('/pageNotFound');
+  }
+};
+
+
 // .......................................
 
 
@@ -369,7 +402,7 @@ const signup = async (req, res) => {
 };
 
 
-const loadLogin =async (req,res)=>{
+const loadLogin1 =async (req,res)=>{
 
 try{
 
@@ -388,7 +421,32 @@ catch(error){
 }
 
 }
-
+const loadLogin = async (req, res) => {
+    try {
+      const userId = req.session.user;
+      
+      if (userId) {
+        // If user is authenticated, redirect to home
+        return res.redirect('/');
+      }
+  
+      // For unauthenticated users, render login page with defaults
+      const cartCount = 0; // Default for unauthenticated users
+      const wishlistCount = 0; // Default for unauthenticated users
+  
+      res.render('login', {
+        page: 'login', // Added to fix page is not defined
+        user: null, // No user for unauthenticated
+        cartCount,
+        wishlistCount,
+        email: req.query.email || '', // Form persistence
+        message: req.query.error || '' // Error message
+      });
+    } catch (error) {
+      console.error('Error loading login page:', error);
+      res.redirect('/pageNotFound');
+    }
+  };
 const login = async (req, res) => {
     try {
       const { email, password } = req.body;
@@ -418,7 +476,7 @@ const login = async (req, res) => {
   
       const passwordMatch = await bcrypt.compare(password, findUser.password);
       if (!passwordMatch) {
-        return res.render("login", {
+        return res.render("login", {page:"login",
           message: "Incorrect Password",
           email: email
         });
@@ -428,7 +486,7 @@ const login = async (req, res) => {
       res.redirect("/");
     } catch (error) {
       console.error("Login Error:", error);
-      res.render("login", {
+      res.render("login", {page:"login",
         message: "Login failed, please try again later",
         email: req.body.email || ""
       });
